@@ -301,7 +301,10 @@ class _Stage extends StatelessWidget {
       move: round?.playerMove ?? state.selectedMove,
       shakeDuration: chantDuration,
       semanticLabel: handLabel(
-          l10n.you, round?.playerMove ?? state.selectedMove, playerState),
+        l10n.you,
+        round?.playerMove ?? state.selectedMove,
+        playerState,
+      ),
     );
     final robotHand = HandCard(
       size: handSize,

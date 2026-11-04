@@ -241,7 +241,11 @@ class _RobotPainter extends CustomPainter {
           final path = Path()
             ..moveTo(c.dx - r, c.dy + r * 0.35)
             ..quadraticBezierTo(
-                c.dx, c.dy - r * 1.2, c.dx + r, c.dy + r * 0.35);
+              c.dx,
+              c.dy - r * 1.2,
+              c.dx + r,
+              c.dy + r * 0.35,
+            );
           canvas.drawPath(
             path,
             Paint()
@@ -319,7 +323,11 @@ class _RobotPainter extends CustomPainter {
           Path()
             ..moveTo(m.dx - w, m.dy - s * 0.01)
             ..quadraticBezierTo(
-                m.dx, m.dy + s * 0.045, m.dx + w, m.dy - s * 0.01),
+              m.dx,
+              m.dy + s * 0.045,
+              m.dx + w,
+              m.dy - s * 0.01,
+            ),
           stroke,
         );
       case RobotMood.thinking:
@@ -355,7 +363,11 @@ class _RobotPainter extends CustomPainter {
           Path()
             ..moveTo(m.dx - w, m.dy + s * 0.03)
             ..quadraticBezierTo(
-                m.dx, m.dy - s * 0.025, m.dx + w, m.dy + s * 0.03),
+              m.dx,
+              m.dy - s * 0.025,
+              m.dx + w,
+              m.dy + s * 0.03,
+            ),
           stroke,
         );
       case RobotMood.surprised:

@@ -24,13 +24,15 @@ class AppBackground extends StatelessWidget {
         fit: StackFit.expand,
         children: [
           Positioned(
-              top: -170,
-              right: -120,
-              child: _ArcadeMark(color: scheme.primary)),
+            top: -170,
+            right: -120,
+            child: _ArcadeMark(color: scheme.primary),
+          ),
           Positioned(
-              bottom: -200,
-              left: -140,
-              child: _ArcadeMark(color: scheme.secondary, reverse: true)),
+            bottom: -200,
+            left: -140,
+            child: _ArcadeMark(color: scheme.secondary, reverse: true),
+          ),
           const Positioned(
             top: 88,
             left: 18,

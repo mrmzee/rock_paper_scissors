@@ -421,8 +421,11 @@ class _StatsError extends StatelessWidget {
           ToyBadge(
             color: scheme.tertiary,
             size: 76,
-            child: Icon(Icons.cloud_off_rounded,
-                color: scheme.onTertiary, size: 38),
+            child: Icon(
+              Icons.cloud_off_rounded,
+              color: scheme.onTertiary,
+              size: 38,
+            ),
           ),
           const SizedBox(height: AppSpacing.lg),
           FilledButton.icon(
@@ -455,15 +458,21 @@ class _EmptyStats extends StatelessWidget {
                 ToyBadge(
                   color: scheme.secondary,
                   size: 68,
-                  child: Icon(Icons.back_hand_rounded,
-                      color: scheme.onSecondary, size: 38),
+                  child: Icon(
+                    Icons.back_hand_rounded,
+                    color: scheme.onSecondary,
+                    size: 38,
+                  ),
                 ),
                 const SizedBox(width: AppSpacing.md),
                 ToyBadge(
                   color: scheme.tertiary,
                   size: 68,
-                  child: Icon(Icons.emoji_events_rounded,
-                      color: scheme.onTertiary, size: 38),
+                  child: Icon(
+                    Icons.emoji_events_rounded,
+                    color: scheme.onTertiary,
+                    size: 38,
+                  ),
                 ),
               ],
             ),
