@@ -7,6 +7,9 @@ import 'package:rock_paper_scissors/core/settings/settings_cubit.dart';
 import 'package:rock_paper_scissors/core/settings/settings_repository.dart';
 import 'package:rock_paper_scissors/core/theme/app_motion.dart';
 import 'package:rock_paper_scissors/core/theme/app_theme.dart';
+import 'package:rock_paper_scissors/features/achievements/data/repositories/in_memory_achievements_repository.dart';
+import 'package:rock_paper_scissors/features/achievements/domain/repositories/achievements_repository.dart';
+import 'package:rock_paper_scissors/features/achievements/domain/usecases/unlock_achievements.dart';
 import 'package:rock_paper_scissors/features/game/data/repositories/adaptive_opponent_strategy.dart';
 import 'package:rock_paper_scissors/features/game/data/repositories/in_memory_stats_repository.dart';
 import 'package:rock_paper_scissors/features/game/domain/repositories/opponent_strategy.dart';
@@ -25,6 +28,7 @@ class RockPaperScissorsApp extends StatelessWidget {
     this.home = const HomePage(),
     this.settingsRepository,
     this.statsRepository,
+    this.achievementsRepository,
     this.opponentStrategy,
     this.soundService = const SilentSoundService(),
   });
@@ -32,6 +36,7 @@ class RockPaperScissorsApp extends StatelessWidget {
   final Widget home;
   final SettingsRepository? settingsRepository;
   final StatsRepository? statsRepository;
+  final AchievementsRepository? achievementsRepository;
   final OpponentStrategy? opponentStrategy;
   final SoundService soundService;
 
@@ -43,6 +48,10 @@ class RockPaperScissorsApp extends StatelessWidget {
         RepositoryProvider<StatsRepository>(
           create: (_) => statsRepository ?? InMemoryStatsRepository(),
         ),
+        RepositoryProvider<AchievementsRepository>(
+          create: (_) =>
+              achievementsRepository ?? InMemoryAchievementsRepository(),
+        ),
         RepositoryProvider<PlayRound>(
           create: (_) => PlayRound(
             opponentStrategy ?? AdaptiveOpponentStrategy(),
@@ -51,6 +60,10 @@ class RockPaperScissorsApp extends StatelessWidget {
         RepositoryProvider<RecordMatchStats>(
           create: (context) =>
               RecordMatchStats(context.read<StatsRepository>()),
+        ),
+        RepositoryProvider<UnlockAchievements>(
+          create: (context) =>
+              UnlockAchievements(context.read<AchievementsRepository>()),
         ),
       ],
       child: BlocProvider(

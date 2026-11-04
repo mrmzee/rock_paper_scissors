@@ -111,6 +111,37 @@
   "reset": "Reset",
   "noStatsYet": "Play a game to win trophies!",
   "tryAgain": "Try again",
+  "badges": "Badges",
+  "badgesProgress": "{unlocked} of {total}",
+  "@badgesProgress": {
+    "placeholders": {
+      "unlocked": {"type": "int", "format": "decimalPattern"},
+      "total": {"type": "int", "format": "decimalPattern"}
+    }
+  },
+  "newBadge": "New badge!",
+  "badgeLocked": "Locked",
+  "badgeFirstWin": "First win",
+  "badgeFirstWinHint": "Win a match",
+  "badgeStreak3": "Hat trick",
+  "badgeStreak3Hint": "Win 3 rounds in a row",
+  "badgeStreak5": "Unstoppable",
+  "badgeStreak5Hint": "Win 5 rounds in a row",
+  "badgePerfect": "Perfect match",
+  "badgePerfectHint": "Get 3 stars without losing a round",
+  "badgeBeatGrumpy": "Grumpy no more",
+  "badgeBeatGrumpyHint": "Win a match against {robot}",
+  "@badgeBeatGrumpyHint": {
+    "placeholders": {
+      "robot": {"type": "String"}
+    }
+  },
+  "badgeAllMoves": "Triple threat",
+  "badgeAllMovesHint": "Win with rock, paper and scissors in one match",
+  "badgeMatches10": "Regular",
+  "badgeMatches10Hint": "Play 10 matches",
+  "badgeMatches50": "Veteran",
+  "badgeMatches50Hint": "Play 50 matches",
   "howToPlay": "How to play",
   "onboardingSkip": "Skip",
   "onboardingNext": "Next",

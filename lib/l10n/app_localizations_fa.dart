@@ -253,6 +253,77 @@ class AppLocalizationsFa extends AppLocalizations {
   String get tryAgain => 'دوباره امتحان کن';
 
   @override
+  String get badges => 'نشان‌ها';
+
+  @override
+  String badgesProgress(int unlocked, int total) {
+    final intl.NumberFormat unlockedNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String unlockedString = unlockedNumberFormat.format(unlocked);
+    final intl.NumberFormat totalNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String totalString = totalNumberFormat.format(total);
+
+    return '$unlockedString از $totalString';
+  }
+
+  @override
+  String get newBadge => 'نشان جدید!';
+
+  @override
+  String get badgeLocked => 'قفل';
+
+  @override
+  String get badgeFirstWin => 'اولین برد';
+
+  @override
+  String get badgeFirstWinHint => 'یه مسابقه ببر';
+
+  @override
+  String get badgeStreak3 => 'سه‌تایی';
+
+  @override
+  String get badgeStreak3Hint => '۳ دست پشت سر هم ببر';
+
+  @override
+  String get badgeStreak5 => 'توقف‌ناپذیر';
+
+  @override
+  String get badgeStreak5Hint => '۵ دست پشت سر هم ببر';
+
+  @override
+  String get badgePerfect => 'بی‌نقص';
+
+  @override
+  String get badgePerfectHint => '۳ ستاره بگیر بدون حتی یه باخت';
+
+  @override
+  String get badgeBeatGrumpy => 'اخمو رو بردی';
+
+  @override
+  String badgeBeatGrumpyHint(String robot) {
+    return 'یه مسابقه از $robot ببر';
+  }
+
+  @override
+  String get badgeAllMoves => 'استاد سه دست';
+
+  @override
+  String get badgeAllMovesHint => 'توی یه مسابقه با سنگ، کاغذ و قیچی ببر';
+
+  @override
+  String get badgeMatches10 => 'پایه‌ی ثابت';
+
+  @override
+  String get badgeMatches10Hint => '۱۰ مسابقه بازی کن';
+
+  @override
+  String get badgeMatches50 => 'کهنه‌کار';
+
+  @override
+  String get badgeMatches50Hint => '۵۰ مسابقه بازی کن';
+
+  @override
   String get howToPlay => 'راهنمای بازی';
 
   @override

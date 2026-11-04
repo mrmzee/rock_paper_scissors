@@ -6,6 +6,7 @@ import 'package:rock_paper_scissors/core/audio/sound_service.dart';
 import 'package:rock_paper_scissors/core/theme/app_motion.dart';
 import 'package:rock_paper_scissors/core/theme/app_spacing.dart';
 import 'package:rock_paper_scissors/core/widgets/app_background.dart';
+import 'package:rock_paper_scissors/features/achievements/presentation/widgets/achievement_snack_bar.dart';
 import 'package:rock_paper_scissors/features/game/domain/entities/match.dart';
 import 'package:rock_paper_scissors/features/game/domain/entities/move.dart';
 import 'package:rock_paper_scissors/features/game/domain/entities/round_outcome.dart';
@@ -35,6 +36,7 @@ class _GameViewState extends State<GameView> {
     duration: const Duration(milliseconds: 600),
   );
   int _confettiParticles = 10;
+  int _toastedAchievements = 0;
 
   @override
   void dispose() {
@@ -76,7 +78,7 @@ class _GameViewState extends State<GameView> {
     if (!mounted || bloc.state.phase != GamePhase.matchOver) return;
 
     final action = await Navigator.of(context).push(
-      MatchResultPage.route(match),
+      MatchResultPage.route(match, achievements: bloc.state.achievements),
     );
     if (!mounted) return;
     if (action == MatchResultAction.playAgain) {
@@ -84,6 +86,14 @@ class _GameViewState extends State<GameView> {
     } else {
       Navigator.of(context).pop();
     }
+  }
+
+  void _onAchievementsEarned(BuildContext context, GameState state) {
+    final messenger = ScaffoldMessenger.of(context);
+    for (final achievement in state.achievements.skip(_toastedAchievements)) {
+      messenger.showSnackBar(achievementSnackBar(context, achievement));
+    }
+    _toastedAchievements = state.achievements.length;
   }
 
   Future<void> _openPauseMenu() async {
@@ -108,6 +118,17 @@ class _GameViewState extends State<GameView> {
 
   @override
   Widget build(BuildContext context) {
+    return BlocListener<GameBloc, GameState>(
+      // The result page lists badges earned in the final round instead.
+      listenWhen: (previous, current) =>
+          previous.achievements != current.achievements &&
+          current.phase != GamePhase.matchOver,
+      listener: _onAchievementsEarned,
+      child: _buildGame(context),
+    );
+  }
+
+  Widget _buildGame(BuildContext context) {
     return BlocConsumer<GameBloc, GameState>(
       listenWhen: (previous, current) =>
           previous.phase != current.phase &&

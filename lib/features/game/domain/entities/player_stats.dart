@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:rock_paper_scissors/features/game/domain/entities/difficulty.dart';
+import 'package:rock_paper_scissors/features/game/domain/entities/match.dart';
 import 'package:rock_paper_scissors/features/game/domain/entities/move.dart';
+import 'package:rock_paper_scissors/features/game/domain/entities/round_outcome.dart';
 
 /// Lifetime totals persisted across sessions.
 final class PlayerStats extends Equatable {
@@ -66,6 +68,46 @@ final class PlayerStats extends Equatable {
     final played = roundsPlayedBy[difficulty] ?? 0;
     if (played == 0) return null;
     return (roundsWonBy[difficulty] ?? 0) / played;
+  }
+
+  /// These totals with [match] added; an empty match changes nothing.
+  PlayerStats including(Match match) {
+    if (match.history.isEmpty) return this;
+
+    final score = match.scoreboard;
+    final moves = {...movesPlayed};
+    var streak = currentStreak;
+    var best = bestStreak;
+    for (final round in match.history) {
+      moves[round.playerMove] = (moves[round.playerMove] ?? 0) + 1;
+      streak = switch (round.outcome) {
+        RoundOutcome.win => streak + 1,
+        RoundOutcome.draw => streak,
+        RoundOutcome.loss => 0,
+      };
+      if (streak > best) best = streak;
+    }
+
+    final robot = match.difficulty;
+    return copyWith(
+      matchesPlayed: matchesPlayed + 1,
+      matchesWon: matchesWon + (match.playerWon == true ? 1 : 0),
+      matchesLost: matchesLost + (match.playerWon == false ? 1 : 0),
+      roundsWon: roundsWon + score.wins,
+      roundsDrawn: roundsDrawn + score.draws,
+      roundsLost: roundsLost + score.losses,
+      bestStreak: best,
+      currentStreak: streak,
+      movesPlayed: moves,
+      roundsPlayedBy: {
+        ...roundsPlayedBy,
+        robot: (roundsPlayedBy[robot] ?? 0) + score.roundsPlayed,
+      },
+      roundsWonBy: {
+        ...roundsWonBy,
+        robot: (roundsWonBy[robot] ?? 0) + score.wins,
+      },
+    );
   }
 
   PlayerStats copyWith({

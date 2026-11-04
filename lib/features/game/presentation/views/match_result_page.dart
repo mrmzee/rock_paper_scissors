@@ -8,6 +8,8 @@ import 'package:rock_paper_scissors/core/theme/game_colors.dart';
 import 'package:rock_paper_scissors/core/widgets/app_background.dart';
 import 'package:rock_paper_scissors/core/widgets/chunky_button.dart';
 import 'package:rock_paper_scissors/core/widgets/toy_surface.dart';
+import 'package:rock_paper_scissors/features/achievements/domain/entities/achievement.dart';
+import 'package:rock_paper_scissors/features/achievements/presentation/widgets/new_achievements.dart';
 import 'package:rock_paper_scissors/features/game/domain/entities/match.dart';
 import 'package:rock_paper_scissors/features/game/presentation/mappers/robot_look.dart';
 import 'package:rock_paper_scissors/features/game/presentation/widgets/player_badge.dart';
@@ -17,15 +19,26 @@ enum MatchResultAction { playAgain, home }
 
 /// Full-screen celebration (or consolation) after a 3-star match.
 class MatchResultPage extends StatefulWidget {
-  const MatchResultPage({super.key, required this.match});
+  const MatchResultPage({
+    super.key,
+    required this.match,
+    this.achievements = const [],
+  });
 
   final Match match;
 
-  static Route<MatchResultAction> route(Match match) {
+  /// Badges earned during [match].
+  final List<Achievement> achievements;
+
+  static Route<MatchResultAction> route(
+    Match match, {
+    List<Achievement> achievements = const [],
+  }) {
     return PageRouteBuilder<MatchResultAction>(
       transitionDuration: AppMotion.page,
       reverseTransitionDuration: AppMotion.page,
-      pageBuilder: (_, __, ___) => MatchResultPage(match: match),
+      pageBuilder: (_, __, ___) =>
+          MatchResultPage(match: match, achievements: achievements),
       transitionsBuilder: (context, animation, _, child) {
         if (AppMotion.reduced(context)) return child;
         final curved = CurvedAnimation(
@@ -139,6 +152,10 @@ class _MatchResultPageState extends State<MatchResultPage> {
                         ),
                         const SizedBox(height: AppSpacing.xlg),
                         _FinalScore(match: match, won: _won),
+                        if (widget.achievements.isNotEmpty) ...[
+                          const SizedBox(height: AppSpacing.lg),
+                          NewAchievements(achievements: widget.achievements),
+                        ],
                         const SizedBox(height: AppSpacing.xxlg),
                         _ResultButton(
                           icon: Icons.replay_rounded,

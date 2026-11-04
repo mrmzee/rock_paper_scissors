@@ -127,6 +127,29 @@ void main() {
     await tester.pump(const Duration(days: 1));
   });
 
+  testWidgets('a badge earned in Endless shows a toast', (tester) async {
+    await tester.pumpWidget(
+      _gameApp(robotMoves: const [Move.scissors, Move.scissors, Move.scissors]),
+    );
+
+    for (var round = 0; round < 3; round++) {
+      await tester.tap(find.byKey(const Key('pick_rock')));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 30));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 300));
+      if (round < 2) {
+        await tester.tap(find.text('Tap to continue'));
+        await tester.pump();
+        await tester.pump(const Duration(seconds: 1));
+      }
+    }
+
+    expect(find.text('New badge!'), findsOneWidget);
+    expect(find.text('Hat trick'), findsOneWidget);
+    await tester.pump(const Duration(days: 1));
+  });
+
   testWidgets('game screen fits a small phone and landscape in Persian',
       (tester) async {
     for (final size in const [Size(320, 568), Size(740, 360)]) {
