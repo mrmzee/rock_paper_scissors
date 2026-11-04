@@ -7,12 +7,9 @@ import 'package:rock_paper_scissors/features/game/data/repositories/in_memory_st
 import 'package:rock_paper_scissors/features/game/domain/entities/difficulty.dart';
 import 'package:rock_paper_scissors/features/game/domain/entities/match_mode.dart';
 import 'package:rock_paper_scissors/features/game/domain/entities/move.dart';
-import 'package:rock_paper_scissors/features/game/domain/usecases/play_round.dart';
-import 'package:rock_paper_scissors/features/game/domain/usecases/record_match_stats.dart';
 import 'package:rock_paper_scissors/features/game/presentation/views/game_page.dart';
 import 'package:rock_paper_scissors/features/game/presentation/widgets/hand_art.dart';
 import 'package:rock_paper_scissors/features/game/presentation/widgets/hand_card.dart';
-import 'package:rock_paper_scissors/features/home/presentation/views/home_page.dart';
 
 import 'helpers/sequence_opponent_strategy.dart';
 
@@ -26,11 +23,11 @@ Widget _gameApp({
     settingsRepository: InMemorySettingsRepository(
       AppSettings(locale: locale),
     ),
+    statsRepository: InMemoryStatsRepository(),
+    opponentStrategy: SequenceOpponentStrategy(robotMoves),
     home: GamePage(
       mode: mode,
       difficulty: Difficulty.easy,
-      playRound: PlayRound(SequenceOpponentStrategy(robotMoves)),
-      recordMatchStats: RecordMatchStats(InMemoryStatsRepository()),
       revealDelay: revealDelay,
       resultDelay: const Duration(days: 1),
     ),
@@ -38,16 +35,12 @@ Widget _gameApp({
 }
 
 Widget _homeApp({Locale locale = const Locale('en')}) {
-  final stats = InMemoryStatsRepository();
   return RockPaperScissorsApp(
     settingsRepository: InMemorySettingsRepository(
       AppSettings(locale: locale),
     ),
-    home: HomePage(
-      playRound: PlayRound(SequenceOpponentStrategy(const [])),
-      recordMatchStats: RecordMatchStats(stats),
-      statsRepository: stats,
-    ),
+    statsRepository: InMemoryStatsRepository(),
+    opponentStrategy: SequenceOpponentStrategy(const []),
   );
 }
 

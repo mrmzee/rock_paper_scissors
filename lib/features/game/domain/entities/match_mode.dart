@@ -12,9 +12,4 @@ extension MatchModeX on MatchMode {
         MatchMode.bestOf5 => 3,
         MatchMode.endless => null,
       };
-
-  String get label => switch (this) {
-        MatchMode.bestOf5 => 'Best of 5',
-        MatchMode.endless => 'Endless',
-      };
 }

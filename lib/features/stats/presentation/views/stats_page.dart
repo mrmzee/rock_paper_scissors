@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:rock_paper_scissors/core/l10n/l10n.dart';
 import 'package:rock_paper_scissors/core/theme/app_spacing.dart';
@@ -9,22 +10,16 @@ import 'package:rock_paper_scissors/features/game/domain/entities/player_stats.d
 import 'package:rock_paper_scissors/features/game/domain/repositories/stats_repository.dart';
 
 class StatsPage extends StatefulWidget {
-  const StatsPage({super.key, required this.statsRepository});
-
-  final StatsRepository statsRepository;
+  const StatsPage({super.key});
 
   @override
   State<StatsPage> createState() => _StatsPageState();
 }
 
 class _StatsPageState extends State<StatsPage> {
-  late Future<PlayerStats> _future;
+  late Future<PlayerStats> _future = _load();
 
-  @override
-  void initState() {
-    super.initState();
-    _future = widget.statsRepository.load();
-  }
+  Future<PlayerStats> _load() => context.read<StatsRepository>().load();
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +79,7 @@ class _StatsPageState extends State<StatsPage> {
   }
 
   void _reload() {
-    setState(() => _future = widget.statsRepository.load());
+    setState(() => _future = _load());
   }
 }
 
