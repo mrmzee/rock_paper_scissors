@@ -1,0 +1,36 @@
+// Some plugins (e.g. audioplayers_android) pin old AGP/Kotlin versions in their
+// buildscript; align them with the project's versions so Gradle doesn't try to
+// download them.
+subprojects {
+    buildscript.configurations.configureEach {
+        resolutionStrategy.eachDependency { details ->
+            def requested = details.requested
+            if (requested.group == 'com.android.tools.build' && requested.name == 'gradle') {
+                details.useVersion '8.11.1'
+            } else if (requested.group == 'org.jetbrains.kotlin') {
+                details.useVersion '2.2.20'
+            }
+        }
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        maven { url "https://maven.aliyun.com/repository/google" }
+        maven { url "https://maven.aliyun.com/repository/public" }
+    }
+}
+
+rootProject.buildDir = '../build'
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
+}
+subprojects {
+    project.evaluationDependsOn(':app')
+}
+
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
+}
