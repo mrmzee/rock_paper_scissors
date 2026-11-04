@@ -19,12 +19,14 @@ subprojects {
     }
 }
 
+// Mirrors come first: Gradle fetches an artifact only from the repository that
+// served its POM, so a flaky dl.google.com would otherwise fail the build.
 allprojects {
     repositories {
-        google()
-        mavenCentral()
         maven { url "https://maven.aliyun.com/repository/google" }
         maven { url "https://maven.aliyun.com/repository/public" }
+        google()
+        mavenCentral()
     }
 }
 
