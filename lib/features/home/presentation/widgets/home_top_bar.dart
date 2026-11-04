@@ -49,8 +49,11 @@ class HomeTopBar extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(Icons.translate_rounded,
-                      color: scheme.primary, size: 22),
+                  Icon(
+                    Icons.translate_rounded,
+                    color: scheme.primary,
+                    size: 22,
+                  ),
                   const SizedBox(width: AppSpacing.xs),
                   Flexible(
                     child: FittedBox(
