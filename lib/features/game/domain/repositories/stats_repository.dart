@@ -5,4 +5,7 @@ abstract interface class StatsRepository {
   Future<PlayerStats> load();
 
   Future<void> save(PlayerStats stats);
+
+  /// Forgets every recorded match.
+  Future<void> clear();
 }

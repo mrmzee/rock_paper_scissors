@@ -416,6 +416,66 @@ abstract class AppLocalizations {
   /// **'Best streak'**
   String get bestStreak;
 
+  /// No description provided for @currentStreak.
+  ///
+  /// In en, this message translates to:
+  /// **'In a row now'**
+  String get currentStreak;
+
+  /// No description provided for @favoriteMove.
+  ///
+  /// In en, this message translates to:
+  /// **'Favorite hand'**
+  String get favoriteMove;
+
+  /// No description provided for @timesPlayed.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 time} other{{count} times}}'**
+  String timesPlayed(int count);
+
+  /// No description provided for @vsRobots.
+  ///
+  /// In en, this message translates to:
+  /// **'Against each robot'**
+  String get vsRobots;
+
+  /// No description provided for @notPlayedYet.
+  ///
+  /// In en, this message translates to:
+  /// **'Not played yet'**
+  String get notPlayedYet;
+
+  /// No description provided for @resetStats.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset stats'**
+  String get resetStats;
+
+  /// No description provided for @resetStatsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset all stats?'**
+  String get resetStatsTitle;
+
+  /// No description provided for @resetStatsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your trophies and records will be erased. This can\'t be undone.'**
+  String get resetStatsBody;
+
+  /// No description provided for @cancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// No description provided for @reset.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset'**
+  String get reset;
+
   /// No description provided for @noStatsYet.
   ///
   /// In en, this message translates to:

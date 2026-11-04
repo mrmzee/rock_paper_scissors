@@ -210,6 +210,43 @@ class AppLocalizationsFa extends AppLocalizations {
   String get bestStreak => 'بهترین رکورد';
 
   @override
+  String get currentStreak => 'برد پشت سر هم';
+
+  @override
+  String get favoriteMove => 'دست محبوب';
+
+  @override
+  String timesPlayed(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    return '$countString بار';
+  }
+
+  @override
+  String get vsRobots => 'در برابر هر ربات';
+
+  @override
+  String get notPlayedYet => 'هنوز بازی نکردی';
+
+  @override
+  String get resetStats => 'پاک کردن آمار';
+
+  @override
+  String get resetStatsTitle => 'همهٔ آمار پاک بشه؟';
+
+  @override
+  String get resetStatsBody =>
+      'جایزه‌ها و رکوردهات پاک می‌شن و دیگه برنمی‌گردن.';
+
+  @override
+  String get cancel => 'نه';
+
+  @override
+  String get reset => 'پاک کن';
+
+  @override
   String get noStatsYet => 'بازی کن تا جایزه ببری!';
 
   @override

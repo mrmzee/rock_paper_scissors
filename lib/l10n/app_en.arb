@@ -94,6 +94,21 @@
   "matches": "Matches",
   "rounds": "Rounds",
   "bestStreak": "Best streak",
+  "currentStreak": "In a row now",
+  "favoriteMove": "Favorite hand",
+  "timesPlayed": "{count, plural, =1{1 time} other{{count} times}}",
+  "@timesPlayed": {
+    "placeholders": {
+      "count": {"type": "int", "format": "decimalPattern"}
+    }
+  },
+  "vsRobots": "Against each robot",
+  "notPlayedYet": "Not played yet",
+  "resetStats": "Reset stats",
+  "resetStatsTitle": "Reset all stats?",
+  "resetStatsBody": "Your trophies and records will be erased. This can't be undone.",
+  "cancel": "Cancel",
+  "reset": "Reset",
   "noStatsYet": "Play a game to win trophies!",
   "tryAgain": "Try again",
   "loading": "Loading"
