@@ -7,6 +7,7 @@ import 'package:rock_paper_scissors/features/game/data/repositories/in_memory_st
 import 'package:rock_paper_scissors/features/game/domain/entities/difficulty.dart';
 import 'package:rock_paper_scissors/features/game/domain/entities/match_mode.dart';
 import 'package:rock_paper_scissors/features/game/domain/entities/move.dart';
+import 'package:rock_paper_scissors/features/game/domain/entities/opponent.dart';
 import 'package:rock_paper_scissors/features/game/presentation/views/game_page.dart';
 import 'package:rock_paper_scissors/features/game/presentation/widgets/hand_art.dart';
 import 'package:rock_paper_scissors/features/game/presentation/widgets/hand_card.dart';
@@ -17,6 +18,7 @@ import 'helpers/sequence_opponent_strategy.dart';
 Widget _gameApp({
   Locale locale = const Locale('en'),
   MatchMode mode = MatchMode.endless,
+  Opponent opponent = Opponent.robot,
   List<Move> robotMoves = const [Move.rock],
   Duration revealDelay = const Duration(milliseconds: 30),
 }) {
@@ -29,6 +31,7 @@ Widget _gameApp({
     home: GamePage(
       mode: mode,
       difficulty: Difficulty.easy,
+      opponent: opponent,
       revealDelay: revealDelay,
       resultDelay: const Duration(days: 1),
     ),
@@ -150,10 +153,58 @@ void main() {
     await tester.pump(const Duration(days: 1));
   });
 
+  testWidgets('pass-and-play hides Player 1 until Player 2 is ready',
+      (tester) async {
+    await tester.pumpWidget(_gameApp(opponent: Opponent.friend));
+
+    expect(find.text('Player 1, pick!'), findsOneWidget);
+    expect(find.text('Player 2'), findsOneWidget);
+
+    await tester.tap(find.byKey(const Key('pick_rock')));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 300));
+    expect(find.text('Pass the phone to Player 2'), findsOneWidget);
+
+    await tester.tap(find.byKey(const Key('handoff_ready')));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 300));
+    expect(find.byKey(const Key('handoff_cover')), findsNothing);
+    expect(find.text('Player 2, pick!'), findsOneWidget);
+
+    await tester.tap(find.byKey(const Key('pick_scissors')));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 30));
+    await tester.pump();
+
+    expect(find.text('Player 1 wins!'), findsOneWidget);
+    expect(_score('player_score', '1'), findsOneWidget);
+    await tester.pump(const Duration(days: 1));
+  });
+
+  testWidgets('home starts a friend match from the friend card',
+      (tester) async {
+    _setScreen(tester, const Size(390, 844));
+    await tester.pumpWidget(_homeApp());
+
+    await tester.tap(find.byKey(const Key('opponent_friend')));
+    await tester.pump();
+    expect(
+      tester.getSemantics(find.byKey(const Key('opponent_friend'))),
+      isSemantics(isSelected: true),
+    );
+
+    await tester.tap(find.byKey(const Key('play_button')));
+    await tester.pump();
+    await tester.pump(const Duration(seconds: 1));
+    expect(find.text('Player 1, pick!'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
   testWidgets('game screen fits a small phone and landscape in Persian',
       (tester) async {
     for (final size in const [Size(320, 568), Size(740, 360)]) {
       _setScreen(tester, size);
+      await tester.pumpWidget(const SizedBox.shrink());
       await tester.pumpWidget(_gameApp(locale: const Locale('fa')));
       await tester.pump();
 
@@ -163,6 +214,19 @@ void main() {
         Directionality.of(tester.element(find.byKey(const Key('pick_rock')))),
         TextDirection.rtl,
       );
+
+      await tester.pumpWidget(const SizedBox.shrink());
+      await tester.pumpWidget(
+        _gameApp(
+          locale: const Locale('fa'),
+          opponent: Opponent.friend,
+        ),
+      );
+      await tester.tap(find.byKey(const Key('pick_rock')));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 300));
+      expect(tester.takeException(), isNull);
+      expect(find.text('گوشی رو بده به بازیکن ۲'), findsOneWidget);
     }
   });
 

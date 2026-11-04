@@ -7,6 +7,7 @@ import 'package:rock_paper_scissors/features/game/domain/entities/difficulty.dar
 import 'package:rock_paper_scissors/features/game/domain/entities/match.dart';
 import 'package:rock_paper_scissors/features/game/domain/entities/match_mode.dart';
 import 'package:rock_paper_scissors/features/game/domain/entities/move.dart';
+import 'package:rock_paper_scissors/features/game/domain/entities/opponent.dart';
 import 'package:rock_paper_scissors/features/game/domain/usecases/play_round.dart';
 import 'package:rock_paper_scissors/features/game/domain/usecases/record_match_stats.dart';
 import 'package:rock_paper_scissors/features/game/presentation/bloc/game_bloc.dart';
@@ -18,6 +19,7 @@ import '../../../helpers/sequence_opponent_strategy.dart';
 GameBloc _bloc(
   List<Move> robotMoves, {
   MatchMode mode = MatchMode.endless,
+  Opponent opponent = Opponent.robot,
   InMemoryStatsRepository? stats,
   InMemoryAchievementsRepository? achievements,
 }) {
@@ -27,7 +29,11 @@ GameBloc _bloc(
     unlockAchievements: UnlockAchievements(
       achievements ?? InMemoryAchievementsRepository(),
     ),
-    initialMatch: Match.start(mode: mode, difficulty: Difficulty.easy),
+    initialMatch: Match.start(
+      mode: mode,
+      difficulty: Difficulty.easy,
+      opponent: opponent,
+    ),
     revealDelay: const Duration(milliseconds: 20),
     resultDelay: const Duration(milliseconds: 40),
   );
@@ -120,5 +126,68 @@ void main() {
     await _wait(5);
     expect((await stats.load()).matchesPlayed, 1);
     await bloc.close();
+  });
+
+  group('pass-and-play', () {
+    test('hides Player 1 behind a handoff, then plays both picks', () async {
+      final bloc = _bloc(const [], opponent: Opponent.friend);
+
+      bloc.add(const GameMoveSelected(Move.rock));
+      await _wait(1);
+      expect(bloc.state.phase, GamePhase.handoff);
+      expect(bloc.state.firstMove, Move.rock);
+      expect(bloc.state.selectedMove, isNull);
+      expect(bloc.state.match.history, isEmpty);
+
+      bloc.add(const GameMoveSelected(Move.paper));
+      await _wait(1);
+      expect(bloc.state.phase, GamePhase.handoff, reason: 'not confirmed');
+
+      bloc.add(const GameHandoffConfirmed());
+      await _wait(1);
+      expect(bloc.state.phase, GamePhase.picking);
+
+      bloc.add(const GameMoveSelected(Move.scissors));
+      await _wait(30);
+      final round = bloc.state.match.lastRound!;
+      expect(round.playerMove, Move.rock);
+      expect(round.opponentMove, Move.scissors);
+      expect(bloc.state.phase, GamePhase.roundResult);
+      expect(bloc.state.firstMove, isNull);
+      await bloc.close();
+    });
+
+    test('never records stats or badges, and reset keeps the friend', () async {
+      final stats = InMemoryStatsRepository();
+      final achievements = InMemoryAchievementsRepository();
+      final bloc = _bloc(
+        const [],
+        mode: MatchMode.bestOf5,
+        opponent: Opponent.friend,
+        stats: stats,
+        achievements: achievements,
+      );
+
+      for (var round = 0; round < 3; round++) {
+        bloc
+          ..add(const GameMoveSelected(Move.rock))
+          ..add(const GameHandoffConfirmed())
+          ..add(const GameMoveSelected(Move.scissors));
+        await _wait(30);
+        bloc.add(const GameRoundAcknowledged());
+        await _wait(1);
+      }
+
+      expect(bloc.state.phase, GamePhase.matchOver);
+      expect(bloc.state.match.playerWon, isTrue);
+      expect(bloc.state.achievements, isEmpty);
+
+      bloc.add(const GameResetRequested());
+      await _wait(5);
+      expect(bloc.state.match.opponent, Opponent.friend);
+      expect((await stats.load()).isEmpty, isTrue);
+      expect(await achievements.load(), isEmpty);
+      await bloc.close();
+    });
   });
 }

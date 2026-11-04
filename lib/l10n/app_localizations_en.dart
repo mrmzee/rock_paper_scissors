@@ -33,7 +33,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get modeEndlessHint => 'Play as long as you like';
 
   @override
-  String get chooseRobot => 'Pick your robot';
+  String get chooseRobot => 'Pick your opponent';
 
   @override
   String get robotEasy => 'Robo Jr.';
@@ -378,4 +378,53 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get loading => 'Loading';
+
+  @override
+  String get opponentFriend => 'A friend';
+
+  @override
+  String get opponentFriendHint => 'Two players, one phone';
+
+  @override
+  String get player1 => 'Player 1';
+
+  @override
+  String get player2 => 'Player 2';
+
+  @override
+  String playerTurn(String player) {
+    return '$player, pick!';
+  }
+
+  @override
+  String handoffTitle(String player) {
+    return 'Pass the phone to $player';
+  }
+
+  @override
+  String get handoffHint => 'No peeking!';
+
+  @override
+  String get handoffReady => 'I\'m ready';
+
+  @override
+  String playerWinsMatch(String player) {
+    return '$player is the champion!';
+  }
+
+  @override
+  String get friendMatchSubtitle => 'What a game!';
+
+  @override
+  String versusScoreSemantics(
+      String player, int wins, String opponent, int losses) {
+    final intl.NumberFormat winsNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String winsString = winsNumberFormat.format(wins);
+    final intl.NumberFormat lossesNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String lossesString = lossesNumberFormat.format(losses);
+
+    return '$player $winsString, $opponent $lossesString';
+  }
 }

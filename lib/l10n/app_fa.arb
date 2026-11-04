@@ -8,7 +8,7 @@
   "modeBestOf5Hint": "هر کی زودتر ۳ بار ببره",
   "modeEndless": "بی‌پایان",
   "modeEndlessHint": "تا هر وقت دوست داری",
-  "chooseRobot": "ربات حریفت رو انتخاب کن",
+  "chooseRobot": "حریفت رو انتخاب کن",
   "robotEasy": "ربو کوچولو",
   "robotNormal": "ربو",
   "robotHard": "ربو اخمو",
@@ -96,5 +96,16 @@
   "onboardingTrophiesTitle": "ستاره و جایزه ببر",
   "onboardingTrophiesBody": "هر کی زودتر ۳ ستاره بگیره برنده‌ست. هر بازی به جایزه‌هات اضافه می‌شه.",
   "onboardingPage": "صفحهٔ {current} از {total}",
-  "loading": "در حال بارگذاری"
+  "loading": "در حال بارگذاری",
+  "opponentFriend": "یه دوست",
+  "opponentFriendHint": "دو نفره با یه گوشی",
+  "player1": "بازیکن ۱",
+  "player2": "بازیکن ۲",
+  "playerTurn": "{player}، انتخاب کن!",
+  "handoffTitle": "گوشی رو بده به {player}",
+  "handoffHint": "یواشکی نگاه نکنی!",
+  "handoffReady": "آماده‌ام",
+  "playerWinsMatch": "{player} قهرمان شد!",
+  "friendMatchSubtitle": "چه بازی‌ای بود!",
+  "versusScoreSemantics": "{player} {wins}، {opponent} {losses}"
 }

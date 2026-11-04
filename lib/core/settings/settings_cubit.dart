@@ -4,6 +4,7 @@ import 'package:rock_paper_scissors/core/settings/app_settings.dart';
 import 'package:rock_paper_scissors/core/settings/settings_repository.dart';
 import 'package:rock_paper_scissors/features/game/domain/entities/difficulty.dart';
 import 'package:rock_paper_scissors/features/game/domain/entities/match_mode.dart';
+import 'package:rock_paper_scissors/features/game/domain/entities/opponent.dart';
 
 final class SettingsCubit extends Cubit<AppSettings> {
   SettingsCubit(this._repository) : super(_repository.load());
@@ -33,8 +34,12 @@ final class SettingsCubit extends Cubit<AppSettings> {
 
   void selectMode(MatchMode mode) => _update(state.copyWith(mode: mode));
 
-  void selectDifficulty(Difficulty difficulty) =>
-      _update(state.copyWith(difficulty: difficulty));
+  /// Picking a robot also switches back from pass-and-play.
+  void selectDifficulty(Difficulty difficulty) => _update(
+        state.copyWith(difficulty: difficulty, opponent: Opponent.robot),
+      );
+
+  void playWithFriend() => _update(state.copyWith(opponent: Opponent.friend));
 
   void _update(AppSettings next) {
     if (next == state) return;

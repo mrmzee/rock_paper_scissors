@@ -3,7 +3,6 @@ import 'package:rock_paper_scissors/core/l10n/l10n.dart';
 import 'package:rock_paper_scissors/core/theme/app_spacing.dart';
 import 'package:rock_paper_scissors/core/widgets/chunky_button.dart';
 import 'package:rock_paper_scissors/features/game/domain/entities/match.dart';
-import 'package:rock_paper_scissors/features/game/domain/entities/match_mode.dart';
 import 'package:rock_paper_scissors/features/game/presentation/widgets/score_strip.dart';
 
 /// Back button, live score and pause button above the stage.
@@ -33,12 +32,7 @@ class GameTopBar extends StatelessWidget {
         const SizedBox(width: AppSpacing.sm),
         Expanded(
           child: Center(
-            child: ScoreStrip(
-              wins: match.scoreboard.wins,
-              losses: match.scoreboard.losses,
-              winsNeeded: match.mode.winsNeeded,
-              difficulty: match.difficulty,
-            ),
+            child: ScoreStrip(match: match),
           ),
         ),
         const SizedBox(width: AppSpacing.sm),

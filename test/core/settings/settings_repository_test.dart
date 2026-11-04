@@ -4,6 +4,7 @@ import 'package:rock_paper_scissors/core/settings/app_settings.dart';
 import 'package:rock_paper_scissors/core/settings/settings_repository.dart';
 import 'package:rock_paper_scissors/features/game/domain/entities/difficulty.dart';
 import 'package:rock_paper_scissors/features/game/domain/entities/match_mode.dart';
+import 'package:rock_paper_scissors/features/game/domain/entities/opponent.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
@@ -30,6 +31,7 @@ void main() {
         soundOn: false,
         mode: MatchMode.endless,
         difficulty: Difficulty.hard,
+        opponent: Opponent.friend,
         themeMode: ThemeMode.dark,
         onboardingSeen: true,
       );
@@ -52,12 +54,14 @@ void main() {
         'settings.mode': 'bestOf99',
         'settings.difficulty': 'impossible',
         'settings.themeMode': 'sepia',
+        'settings.opponent': 'cat',
       });
 
       final settings = repository.load();
       expect(settings.mode, MatchMode.bestOf5);
       expect(settings.difficulty, Difficulty.normal);
       expect(settings.themeMode, ThemeMode.system);
+      expect(settings.opponent, Opponent.robot);
     });
   });
 

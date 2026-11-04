@@ -149,7 +149,7 @@ abstract class AppLocalizations {
   /// No description provided for @chooseRobot.
   ///
   /// In en, this message translates to:
-  /// **'Pick your robot'**
+  /// **'Pick your opponent'**
   String get chooseRobot;
 
   /// No description provided for @robotEasy.
@@ -679,6 +679,73 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Loading'**
   String get loading;
+
+  /// No description provided for @opponentFriend.
+  ///
+  /// In en, this message translates to:
+  /// **'A friend'**
+  String get opponentFriend;
+
+  /// No description provided for @opponentFriendHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Two players, one phone'**
+  String get opponentFriendHint;
+
+  /// No description provided for @player1.
+  ///
+  /// In en, this message translates to:
+  /// **'Player 1'**
+  String get player1;
+
+  /// No description provided for @player2.
+  ///
+  /// In en, this message translates to:
+  /// **'Player 2'**
+  String get player2;
+
+  /// No description provided for @playerTurn.
+  ///
+  /// In en, this message translates to:
+  /// **'{player}, pick!'**
+  String playerTurn(String player);
+
+  /// No description provided for @handoffTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Pass the phone to {player}'**
+  String handoffTitle(String player);
+
+  /// No description provided for @handoffHint.
+  ///
+  /// In en, this message translates to:
+  /// **'No peeking!'**
+  String get handoffHint;
+
+  /// No description provided for @handoffReady.
+  ///
+  /// In en, this message translates to:
+  /// **'I\'m ready'**
+  String get handoffReady;
+
+  /// No description provided for @playerWinsMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'{player} is the champion!'**
+  String playerWinsMatch(String player);
+
+  /// No description provided for @friendMatchSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What a game!'**
+  String get friendMatchSubtitle;
+
+  /// No description provided for @versusScoreSemantics.
+  ///
+  /// In en, this message translates to:
+  /// **'{player} {wins}, {opponent} {losses}'**
+  String versusScoreSemantics(
+      String player, int wins, String opponent, int losses);
 }
 
 class _AppLocalizationsDelegate

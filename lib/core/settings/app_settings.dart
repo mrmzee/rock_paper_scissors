@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:rock_paper_scissors/features/game/domain/entities/difficulty.dart';
 import 'package:rock_paper_scissors/features/game/domain/entities/match_mode.dart';
+import 'package:rock_paper_scissors/features/game/domain/entities/opponent.dart';
 
 /// App preferences remembered between launches.
 final class AppSettings extends Equatable {
@@ -10,6 +11,7 @@ final class AppSettings extends Equatable {
     this.soundOn = true,
     this.mode = MatchMode.bestOf5,
     this.difficulty = Difficulty.normal,
+    this.opponent = Opponent.robot,
     this.themeMode = ThemeMode.system,
     this.onboardingSeen = false,
   });
@@ -19,6 +21,7 @@ final class AppSettings extends Equatable {
   final bool soundOn;
   final MatchMode mode;
   final Difficulty difficulty;
+  final Opponent opponent;
   final ThemeMode themeMode;
 
   /// Whether the first-launch "how to play" slides were finished or skipped.
@@ -29,6 +32,7 @@ final class AppSettings extends Equatable {
     bool? soundOn,
     MatchMode? mode,
     Difficulty? difficulty,
+    Opponent? opponent,
     ThemeMode? themeMode,
     bool? onboardingSeen,
   }) {
@@ -37,12 +41,20 @@ final class AppSettings extends Equatable {
       soundOn: soundOn ?? this.soundOn,
       mode: mode ?? this.mode,
       difficulty: difficulty ?? this.difficulty,
+      opponent: opponent ?? this.opponent,
       themeMode: themeMode ?? this.themeMode,
       onboardingSeen: onboardingSeen ?? this.onboardingSeen,
     );
   }
 
   @override
-  List<Object?> get props =>
-      [locale, soundOn, mode, difficulty, themeMode, onboardingSeen];
+  List<Object?> get props => [
+        locale,
+        soundOn,
+        mode,
+        difficulty,
+        opponent,
+        themeMode,
+        onboardingSeen,
+      ];
 }
