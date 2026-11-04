@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:rock_paper_scissors/core/settings/app_settings.dart';
 import 'package:rock_paper_scissors/core/settings/settings_repository.dart';
@@ -30,6 +30,7 @@ void main() {
         soundOn: false,
         mode: MatchMode.endless,
         difficulty: Difficulty.hard,
+        themeMode: ThemeMode.dark,
       );
 
       await repository.save(settings);
@@ -49,11 +50,13 @@ void main() {
       final repository = await build({
         'settings.mode': 'bestOf99',
         'settings.difficulty': 'impossible',
+        'settings.themeMode': 'sepia',
       });
 
       final settings = repository.load();
       expect(settings.mode, MatchMode.bestOf5);
       expect(settings.difficulty, Difficulty.normal);
+      expect(settings.themeMode, ThemeMode.system);
     });
   });
 

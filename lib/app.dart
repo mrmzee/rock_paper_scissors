@@ -56,14 +56,16 @@ class RockPaperScissorsApp extends StatelessWidget {
           settingsRepository ?? InMemorySettingsRepository(),
         ),
         child: BlocBuilder<SettingsCubit, AppSettings>(
-          buildWhen: (previous, current) => previous.locale != current.locale,
+          buildWhen: (previous, current) =>
+              previous.locale != current.locale ||
+              previous.themeMode != current.themeMode,
           builder: (context, settings) {
             return MaterialApp(
               onGenerateTitle: (context) =>
                   AppLocalizations.of(context).appTitle,
               theme: AppTheme.light,
               darkTheme: AppTheme.dark,
-              themeMode: ThemeMode.light,
+              themeMode: settings.themeMode,
               debugShowCheckedModeBanner: false,
               locale: settings.locale,
               supportedLocales: AppLocalizations.supportedLocales,

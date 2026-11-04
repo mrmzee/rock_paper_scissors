@@ -69,6 +69,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get soundOff => 'Sound off';
 
   @override
+  String get themeSystem => 'Theme: follow device';
+
+  @override
+  String get themeLight => 'Theme: light';
+
+  @override
+  String get themeDark => 'Theme: dark';
+
+  @override
   String get back => 'Back';
 
   @override

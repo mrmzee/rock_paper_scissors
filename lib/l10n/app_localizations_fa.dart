@@ -69,6 +69,15 @@ class AppLocalizationsFa extends AppLocalizations {
   String get soundOff => 'صدا خاموش';
 
   @override
+  String get themeSystem => 'تم: مثل دستگاه';
+
+  @override
+  String get themeLight => 'تم: روشن';
+
+  @override
+  String get themeDark => 'تم: تیره';
+
+  @override
   String get back => 'برگشت';
 
   @override

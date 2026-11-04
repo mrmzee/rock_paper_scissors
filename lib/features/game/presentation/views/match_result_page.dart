@@ -144,6 +144,7 @@ class _MatchResultPageState extends State<MatchResultPage> {
                           icon: Icons.replay_rounded,
                           label: l10n.playAgain,
                           color: scheme.secondary,
+                          ink: scheme.onSecondary,
                           onPressed: () => Navigator.of(context)
                               .pop(MatchResultAction.playAgain),
                         ),
@@ -152,6 +153,7 @@ class _MatchResultPageState extends State<MatchResultPage> {
                           icon: Icons.home_rounded,
                           label: l10n.home,
                           color: scheme.surface,
+                          ink: scheme.onSurface,
                           onPressed: () =>
                               Navigator.of(context).pop(MatchResultAction.home),
                         ),
@@ -242,18 +244,19 @@ class _ResultButton extends StatelessWidget {
     required this.icon,
     required this.label,
     required this.color,
+    required this.ink,
     required this.onPressed,
   });
 
   final IconData icon;
   final String label;
   final Color color;
+  final Color ink;
   final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final ink = theme.colorScheme.onSurface;
 
     return ChunkyButton(
       color: color,

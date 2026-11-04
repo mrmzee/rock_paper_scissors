@@ -182,6 +182,33 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
+  testWidgets('theme button cycles system, light and dark', (tester) async {
+    _setScreen(tester, const Size(390, 844));
+    await tester.pumpWidget(_homeApp());
+
+    Brightness brightness() =>
+        Theme.of(tester.element(find.byKey(const Key('play_button'))))
+            .brightness;
+
+    expect(find.byTooltip('Theme: follow device'), findsOneWidget);
+    expect(brightness(), Brightness.light);
+
+    Future<void> toggle() async {
+      await tester.tap(find.byKey(const Key('theme_toggle')));
+      await tester.pump();
+      await tester.pump(const Duration(seconds: 1));
+    }
+
+    await toggle();
+    expect(find.byTooltip('Theme: light'), findsOneWidget);
+    expect(brightness(), Brightness.light);
+
+    await toggle();
+    expect(find.byTooltip('Theme: dark'), findsOneWidget);
+    expect(brightness(), Brightness.dark);
+    expect(tester.takeException(), isNull);
+  });
+
   testWidgets('home opens the game and the trophies page', (tester) async {
     _setScreen(tester, const Size(390, 844));
     await tester.pumpWidget(_homeApp());
