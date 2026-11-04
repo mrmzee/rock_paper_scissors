@@ -11,9 +11,9 @@ subprojects {
         resolutionStrategy.eachDependency { details ->
             def requested = details.requested
             if (requested.group == 'com.android.tools.build' && requested.name == 'gradle') {
-                details.useVersion '8.11.1'
+                details.useVersion '9.1.0'
             } else if (requested.group == 'org.jetbrains.kotlin') {
-                details.useVersion '2.2.20'
+                details.useVersion '2.4.0'
             }
         }
     }
@@ -28,14 +28,15 @@ allprojects {
     }
 }
 
-rootProject.buildDir = '../build'
+def newBuildDir = rootProject.layout.buildDirectory.dir("../../build").get()
+rootProject.layout.buildDirectory.value(newBuildDir)
 subprojects {
-    project.buildDir = "${rootProject.buildDir}/${project.name}"
+    project.layout.buildDirectory.value(newBuildDir.dir(project.name))
 }
 subprojects {
     project.evaluationDependsOn(':app')
 }
 
 tasks.register("clean", Delete) {
-    delete rootProject.buildDir
+    delete rootProject.layout.buildDirectory
 }
