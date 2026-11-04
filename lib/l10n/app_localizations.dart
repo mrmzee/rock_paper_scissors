@@ -488,6 +488,72 @@ abstract class AppLocalizations {
   /// **'Try again'**
   String get tryAgain;
 
+  /// No description provided for @howToPlay.
+  ///
+  /// In en, this message translates to:
+  /// **'How to play'**
+  String get howToPlay;
+
+  /// No description provided for @onboardingSkip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get onboardingSkip;
+
+  /// No description provided for @onboardingNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get onboardingNext;
+
+  /// No description provided for @onboardingDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Let\'s play!'**
+  String get onboardingDone;
+
+  /// No description provided for @onboardingMovesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick your hand'**
+  String get onboardingMovesTitle;
+
+  /// No description provided for @onboardingMovesBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Rock beats scissors, scissors beat paper, and paper beats rock.'**
+  String get onboardingMovesBody;
+
+  /// No description provided for @onboardingRobotsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a robot'**
+  String get onboardingRobotsTitle;
+
+  /// No description provided for @onboardingRobotsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'{easy} plays for fun. {hard} learns your tricks!'**
+  String onboardingRobotsBody(String easy, String hard);
+
+  /// No description provided for @onboardingTrophiesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Win stars and trophies'**
+  String get onboardingTrophiesTitle;
+
+  /// No description provided for @onboardingTrophiesBody.
+  ///
+  /// In en, this message translates to:
+  /// **'First to 3 stars wins the match. Every game adds to your trophies.'**
+  String get onboardingTrophiesBody;
+
+  /// No description provided for @onboardingPage.
+  ///
+  /// In en, this message translates to:
+  /// **'Page {current} of {total}'**
+  String onboardingPage(int current, int total);
+
   /// No description provided for @loading.
   ///
   /// In en, this message translates to:

@@ -76,6 +76,18 @@ void main() {
   );
 
   blocTest<SettingsCubit, AppSettings>(
+    'completeOnboarding is remembered once',
+    build: () => SettingsCubit(repository),
+    act: (cubit) => cubit
+      ..completeOnboarding()
+      ..completeOnboarding(),
+    expect: () => [const AppSettings(onboardingSeen: true)],
+    verify: (_) => verify(
+      () => repository.save(const AppSettings(onboardingSeen: true)),
+    ).called(1),
+  );
+
+  blocTest<SettingsCubit, AppSettings>(
     'selectMode and selectDifficulty update the choices',
     build: () => SettingsCubit(repository),
     act: (cubit) => cubit

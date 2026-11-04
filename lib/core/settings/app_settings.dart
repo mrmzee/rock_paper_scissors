@@ -11,6 +11,7 @@ final class AppSettings extends Equatable {
     this.mode = MatchMode.bestOf5,
     this.difficulty = Difficulty.normal,
     this.themeMode = ThemeMode.system,
+    this.onboardingSeen = false,
   });
 
   /// `null` follows the device language.
@@ -20,12 +21,16 @@ final class AppSettings extends Equatable {
   final Difficulty difficulty;
   final ThemeMode themeMode;
 
+  /// Whether the first-launch "how to play" slides were finished or skipped.
+  final bool onboardingSeen;
+
   AppSettings copyWith({
     Locale? locale,
     bool? soundOn,
     MatchMode? mode,
     Difficulty? difficulty,
     ThemeMode? themeMode,
+    bool? onboardingSeen,
   }) {
     return AppSettings(
       locale: locale ?? this.locale,
@@ -33,9 +38,11 @@ final class AppSettings extends Equatable {
       mode: mode ?? this.mode,
       difficulty: difficulty ?? this.difficulty,
       themeMode: themeMode ?? this.themeMode,
+      onboardingSeen: onboardingSeen ?? this.onboardingSeen,
     );
   }
 
   @override
-  List<Object?> get props => [locale, soundOn, mode, difficulty, themeMode];
+  List<Object?> get props =>
+      [locale, soundOn, mode, difficulty, themeMode, onboardingSeen];
 }

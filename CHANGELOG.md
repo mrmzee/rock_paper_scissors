@@ -17,6 +17,7 @@ All notable changes to this project are documented here. The format follows
 - Theme button on the home screen: follow device, light or dark (remembered).
 - Richer trophies page: favorite hand, current streak and win rate against each robot.
 - Reset stats from the trophies page (with confirmation).
+- First-launch "how to play" slides, reopened from the home "?" button.
 
 ### Changed
 

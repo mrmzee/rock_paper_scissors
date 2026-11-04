@@ -111,5 +111,28 @@
   "reset": "Reset",
   "noStatsYet": "Play a game to win trophies!",
   "tryAgain": "Try again",
+  "howToPlay": "How to play",
+  "onboardingSkip": "Skip",
+  "onboardingNext": "Next",
+  "onboardingDone": "Let's play!",
+  "onboardingMovesTitle": "Pick your hand",
+  "onboardingMovesBody": "Rock beats scissors, scissors beat paper, and paper beats rock.",
+  "onboardingRobotsTitle": "Choose a robot",
+  "onboardingRobotsBody": "{easy} plays for fun. {hard} learns your tricks!",
+  "@onboardingRobotsBody": {
+    "placeholders": {
+      "easy": {"type": "String"},
+      "hard": {"type": "String"}
+    }
+  },
+  "onboardingTrophiesTitle": "Win stars and trophies",
+  "onboardingTrophiesBody": "First to 3 stars wins the match. Every game adds to your trophies.",
+  "onboardingPage": "Page {current} of {total}",
+  "@onboardingPage": {
+    "placeholders": {
+      "current": {"type": "int", "format": "decimalPattern"},
+      "total": {"type": "int", "format": "decimalPattern"}
+    }
+  },
   "loading": "Loading"
 }

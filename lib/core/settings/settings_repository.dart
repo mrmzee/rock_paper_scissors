@@ -32,6 +32,7 @@ final class PreferencesSettingsRepository implements SettingsRepository {
   static const _modeKey = 'settings.mode';
   static const _difficultyKey = 'settings.difficulty';
   static const _themeModeKey = 'settings.themeMode';
+  static const _onboardingSeenKey = 'settings.onboardingSeen';
 
   @override
   AppSettings load() {
@@ -46,6 +47,7 @@ final class PreferencesSettingsRepository implements SettingsRepository {
               Difficulty.normal,
       themeMode: _byName(ThemeMode.values, _prefs.getString(_themeModeKey)) ??
           ThemeMode.system,
+      onboardingSeen: _prefs.getBool(_onboardingSeenKey) ?? false,
     );
   }
 
@@ -61,6 +63,7 @@ final class PreferencesSettingsRepository implements SettingsRepository {
     await _prefs.setString(_modeKey, settings.mode.name);
     await _prefs.setString(_difficultyKey, settings.difficulty.name);
     await _prefs.setString(_themeModeKey, settings.themeMode.name);
+    await _prefs.setBool(_onboardingSeenKey, settings.onboardingSeen);
   }
 
   static T? _byName<T extends Enum>(List<T> values, String? name) {

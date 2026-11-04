@@ -31,6 +31,7 @@ void main() {
         mode: MatchMode.endless,
         difficulty: Difficulty.hard,
         themeMode: ThemeMode.dark,
+        onboardingSeen: true,
       );
 
       await repository.save(settings);

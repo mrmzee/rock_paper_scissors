@@ -4,7 +4,7 @@ import 'package:rock_paper_scissors/core/theme/app_spacing.dart';
 import 'package:rock_paper_scissors/core/theme/game_colors.dart';
 import 'package:rock_paper_scissors/core/widgets/chunky_button.dart';
 
-/// Language, sound and trophies buttons above the home screen.
+/// Language, sound, theme, help and trophies buttons above the home screen.
 class HomeTopBar extends StatelessWidget {
   const HomeTopBar({
     super.key,
@@ -13,6 +13,7 @@ class HomeTopBar extends StatelessWidget {
     required this.onSound,
     required this.themeMode,
     required this.onTheme,
+    required this.onHelp,
     required this.onStats,
   });
 
@@ -21,12 +22,11 @@ class HomeTopBar extends StatelessWidget {
   final VoidCallback onSound;
   final ThemeMode themeMode;
   final VoidCallback onTheme;
+  final VoidCallback onHelp;
   final VoidCallback onStats;
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final scheme = theme.colorScheme;
     final colors = GameColors.of(context);
     final l10n = context.l10n;
 
@@ -34,43 +34,7 @@ class HomeTopBar extends StatelessWidget {
       children: [
         Flexible(
           flex: 8,
-          child: ChunkyButton(
-            key: const Key('language_toggle'),
-            color: scheme.surface,
-            onPressed: onLanguage,
-            tooltip: l10n.switchLanguageTooltip,
-            semanticLabel:
-                '${l10n.switchLanguageTooltip}: ${l10n.switchLanguage}',
-            depth: 4,
-            padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
-            borderRadius: BorderRadius.circular(AppRadius.lg),
-            child: SizedBox(
-              height: 44,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    Icons.translate_rounded,
-                    color: scheme.primary,
-                    size: 22,
-                  ),
-                  const SizedBox(width: AppSpacing.xs),
-                  Flexible(
-                    child: FittedBox(
-                      fit: BoxFit.scaleDown,
-                      child: Text(
-                        l10n.switchLanguage,
-                        style: theme.textTheme.titleMedium?.copyWith(
-                          color: scheme.onSurface,
-                          fontWeight: FontWeight.w800,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
+          child: _LanguageButton(onPressed: onLanguage),
         ),
         const SizedBox(width: AppSpacing.sm),
         ChunkyIconButton(
@@ -95,6 +59,13 @@ class HomeTopBar extends StatelessWidget {
         ),
         const Spacer(),
         ChunkyIconButton(
+          key: const Key('help_button'),
+          icon: Icons.question_mark_rounded,
+          tooltip: l10n.howToPlay,
+          onPressed: onHelp,
+        ),
+        const SizedBox(width: AppSpacing.sm),
+        ChunkyIconButton(
           icon: Icons.emoji_events_rounded,
           tooltip: l10n.myTrophies,
           color: colors.star,
@@ -102,6 +73,65 @@ class HomeTopBar extends StatelessWidget {
           onPressed: onStats,
         ),
       ],
+    );
+  }
+}
+
+/// Shows the other language's name, or only the icon when space is tight.
+class _LanguageButton extends StatelessWidget {
+  const _LanguageButton({required this.onPressed});
+
+  final VoidCallback onPressed;
+
+  static const _compactWidth = 104.0;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+    final l10n = context.l10n;
+
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final compact = constraints.maxWidth < _compactWidth;
+        return ChunkyButton(
+          key: const Key('language_toggle'),
+          color: scheme.surface,
+          onPressed: onPressed,
+          tooltip: l10n.switchLanguageTooltip,
+          semanticLabel:
+              '${l10n.switchLanguageTooltip}: ${l10n.switchLanguage}',
+          depth: 4,
+          padding: EdgeInsets.symmetric(
+            horizontal: compact ? AppSpacing.sm : AppSpacing.md,
+          ),
+          borderRadius: BorderRadius.circular(AppRadius.lg),
+          child: SizedBox(
+            height: 44,
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.translate_rounded, color: scheme.primary, size: 22),
+                if (!compact) ...[
+                  const SizedBox(width: AppSpacing.xs),
+                  Flexible(
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        l10n.switchLanguage,
+                        style: theme.textTheme.titleMedium?.copyWith(
+                          color: scheme.onSurface,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
