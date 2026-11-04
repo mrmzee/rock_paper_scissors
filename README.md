@@ -36,6 +36,16 @@ flutter test             # unit + widget tests
 flutter test --coverage  # writes coverage/lcov.info
 ```
 
+### App icon and splash
+
+The launcher icon and splash are rendered from the in-app robot and hand artwork (`tool/branding/app_icon_art.dart`):
+
+```bash
+flutter test tool/generate_icon_test.dart   # writes assets/branding/*.png
+dart run flutter_launcher_icons
+dart run flutter_native_splash:create
+```
+
 See [CONTRIBUTING.md](CONTRIBUTING.md) for branch naming, commit style and the pull request checklist.
 
 ## Android release signing

@@ -12,12 +12,16 @@ All notable changes to this project are documented here. The format follows
 - Dependabot, issue and pull request templates, contributing guide and MIT license.
 - Release signing for Android from `android/key.properties`.
 - Tests for settings, preference-backed repositories, the robot strategy and home navigation.
+- App icon and splash screen generated from the in-app robot artwork.
+- Localized app name on Android and iOS ("سنگ کاغذ قیچی" in Persian).
 
 ### Changed
 
 - Dependencies are provided once from `RockPaperScissorsApp` and read from context.
 - Home and game screens are split into smaller widget files.
 - Stricter lint rules (`flutter_lints` 6 plus extra rules).
+- `flutter_bloc` 9, `equatable` 3 and other dependency upgrades.
+- Android toolchain: Gradle 9.3.1, AGP 9.1.0, Kotlin 2.4.0.
 
 ### Removed
 
