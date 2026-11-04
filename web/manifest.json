@@ -1,11 +1,11 @@
 {
     "name": "Rock Paper Scissors",
-    "short_name": "RPS",
+    "short_name": "Rock Paper Scissors",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A Rock Paper Scissors Flutter game.",
+    "background_color": "#BDEEFF",
+    "theme_color": "#2875C9",
+    "description": "A kid-friendly Rock Paper Scissors game with robot opponents.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
