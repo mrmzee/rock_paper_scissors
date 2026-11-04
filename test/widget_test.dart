@@ -10,6 +10,7 @@ import 'package:rock_paper_scissors/features/game/domain/entities/move.dart';
 import 'package:rock_paper_scissors/features/game/presentation/views/game_page.dart';
 import 'package:rock_paper_scissors/features/game/presentation/widgets/hand_art.dart';
 import 'package:rock_paper_scissors/features/game/presentation/widgets/hand_card.dart';
+import 'package:rock_paper_scissors/features/stats/presentation/views/stats_page.dart';
 
 import 'helpers/sequence_opponent_strategy.dart';
 
@@ -178,6 +179,30 @@ void main() {
       tester.getSemantics(find.byKey(const Key('robot_hard'))),
       isSemantics(isSelected: true),
     );
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('home opens the game and the trophies page', (tester) async {
+    _setScreen(tester, const Size(390, 844));
+    await tester.pumpWidget(_homeApp());
+
+    Future<void> settle() async {
+      await tester.pump();
+      await tester.pump(const Duration(seconds: 1));
+    }
+
+    await tester.tap(find.byKey(const Key('play_button')));
+    await settle();
+    expect(find.byType(GamePage), findsOneWidget);
+    expect(find.text('Pick your hand!'), findsOneWidget);
+
+    await tester.tap(find.byTooltip('Back'));
+    await settle();
+    expect(find.byType(GamePage), findsNothing);
+
+    await tester.tap(find.byTooltip('My trophies'));
+    await settle();
+    expect(find.byType(StatsPage), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 }
