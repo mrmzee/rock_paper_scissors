@@ -95,7 +95,9 @@ abstract final class AppTheme {
           shape: RoundedRectangleBorder(
             borderRadius: buttonRadius,
             side: BorderSide(
-                color: Colors.white.withValues(alpha: 0.8), width: 2),
+              color: Colors.white.withValues(alpha: 0.8),
+              width: 2,
+            ),
           ),
           textStyle: textTheme.titleMedium?.copyWith(
             fontWeight: FontWeight.w900,
