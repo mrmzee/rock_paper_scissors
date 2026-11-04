@@ -1,0 +1,97 @@
+{
+  "@@locale": "en",
+  "appTitle": "Rock Paper Scissors",
+  "homeGreeting": "Ready to play?",
+  "play": "Play!",
+  "gameType": "Game type",
+  "modeBestOf5": "3 stars",
+  "modeBestOf5Hint": "First to 3 wins",
+  "modeEndless": "Endless",
+  "modeEndlessHint": "Play as long as you like",
+  "chooseRobot": "Pick your robot",
+  "robotEasy": "Robo Jr.",
+  "robotNormal": "Robo",
+  "robotHard": "Grumpy Robo",
+  "robotEasyHint": "Plays for fun",
+  "robotNormalHint": "A fair fight",
+  "robotHardHint": "Learns your tricks",
+  "myTrophies": "My trophies",
+  "switchLanguage": "فارسی",
+  "switchLanguageTooltip": "Change language",
+  "soundOn": "Sound on",
+  "soundOff": "Sound off",
+  "back": "Back",
+  "pause": "Pause",
+  "resume": "Keep playing",
+  "restart": "Start over",
+  "home": "Home",
+  "you": "You",
+  "rock": "Rock",
+  "paper": "Paper",
+  "scissors": "Scissors",
+  "pickPrompt": "Pick your hand!",
+  "youWin": "You win!",
+  "robotWins": "{robot} wins!",
+  "@robotWins": {
+    "placeholders": {
+      "robot": {"type": "String"}
+    }
+  },
+  "draw": "Draw!",
+  "tapToContinue": "Tap to continue",
+  "streak": "{count} in a row!",
+  "@streak": {
+    "placeholders": {
+      "count": {"type": "int", "format": "decimalPattern"}
+    }
+  },
+  "scoreSemantics": "You {wins}, {robot} {losses}",
+  "@scoreSemantics": {
+    "placeholders": {
+      "wins": {"type": "int", "format": "decimalPattern"},
+      "robot": {"type": "String"},
+      "losses": {"type": "int", "format": "decimalPattern"}
+    }
+  },
+  "handSemantics": "{player}: {move}",
+  "@handSemantics": {
+    "placeholders": {
+      "player": {"type": "String"},
+      "move": {"type": "String"}
+    }
+  },
+  "hiddenHand": "hidden",
+  "matchWinTitle": "You're the champion!",
+  "matchWinSubtitle": "Amazing playing!",
+  "matchLoseTitle": "{robot} won this time",
+  "@matchLoseTitle": {
+    "placeholders": {
+      "robot": {"type": "String"}
+    }
+  },
+  "matchLoseSubtitle": "Try again, you can do it!",
+  "playAgain": "Play again",
+  "niceRun": "Nice playing!",
+  "winRate": "Win rate",
+  "roundsSummary": "{won} of {played} rounds",
+  "@roundsSummary": {
+    "placeholders": {
+      "won": {"type": "int", "format": "decimalPattern"},
+      "played": {"type": "int", "format": "decimalPattern"}
+    }
+  },
+  "roundsBreakdown": "{won} wins, {drawn} draws, {lost} losses",
+  "@roundsBreakdown": {
+    "placeholders": {
+      "won": {"type": "int", "format": "decimalPattern"},
+      "drawn": {"type": "int", "format": "decimalPattern"},
+      "lost": {"type": "int", "format": "decimalPattern"}
+    }
+  },
+  "matches": "Matches",
+  "rounds": "Rounds",
+  "bestStreak": "Best streak",
+  "noStatsYet": "Play a game to win trophies!",
+  "tryAgain": "Try again",
+  "loading": "Loading"
+}

@@ -1,0 +1,42 @@
+name: rock_paper_scissors
+description: A kid-friendly Rock Paper Scissors Flutter game.
+publish_to: "none"
+version: 3.0.0+1
+
+environment:
+  sdk: ">=3.0.3 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  audioplayers: ^6.8.1
+  confetti: ^0.8.0
+  cupertino_icons: ^1.0.8
+  equatable: ^2.0.7
+  flutter_bloc: ^8.1.6
+  flutter_svg: ^2.3.2
+  intl: any
+  shared_preferences: ^2.3.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+  generate: true
+  assets:
+    - assets/images/hands/
+    - assets/sounds/
+  fonts:
+    - family: BalooBhaijaan2
+      fonts:
+        - asset: assets/fonts/BalooBhaijaan2-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/BalooBhaijaan2-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/BalooBhaijaan2-ExtraBold.ttf
+          weight: 800
