@@ -6,6 +6,8 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [3.1.0] - 2026-11-04
+
 ### Added
 
 - GitHub Actions CI (format, generated localizations, analyze, test with coverage).
@@ -50,3 +52,6 @@ All notable changes to this project are documented here. The format follows
 - Confetti, sound effects and haptic feedback.
 - English and Persian (RTL) with a runtime language switch.
 - Lifetime stats stored with `shared_preferences`.
+
+[Unreleased]: https://github.com/mrmzee/rock_paper_scissors/compare/v3.1.0...HEAD
+[3.1.0]: https://github.com/mrmzee/rock_paper_scissors/releases/tag/v3.1.0
