@@ -44,6 +44,7 @@ class _PauseSheet extends StatelessWidget {
                   icon: Icons.play_arrow_rounded,
                   label: l10n.resume,
                   color: scheme.secondary,
+                  ink: scheme.onSecondary,
                   onPressed: () =>
                       Navigator.of(context).pop(PauseAction.resume),
                 ),
@@ -52,6 +53,7 @@ class _PauseSheet extends StatelessWidget {
                   icon: Icons.replay_rounded,
                   label: l10n.restart,
                   color: scheme.primaryContainer,
+                  ink: scheme.onPrimaryContainer,
                   onPressed: () =>
                       Navigator.of(context).pop(PauseAction.restart),
                 ),
@@ -90,6 +92,7 @@ class _SheetButton extends StatelessWidget {
     required this.label,
     required this.color,
     required this.onPressed,
+    this.ink,
   });
 
   final IconData icon;
@@ -97,10 +100,13 @@ class _SheetButton extends StatelessWidget {
   final Color color;
   final VoidCallback onPressed;
 
+  /// Icon and label color; defaults to `onSurface`.
+  final Color? ink;
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final ink = theme.colorScheme.onSurface;
+    final ink = this.ink ?? theme.colorScheme.onSurface;
 
     return ChunkyButton(
       color: color,

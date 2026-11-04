@@ -80,6 +80,8 @@ class HomePage extends StatelessWidget {
                   Localizations.localeOf(context),
                 ),
                 onSound: cubit.toggleSound,
+                themeMode: settings.themeMode,
+                onTheme: cubit.cycleThemeMode,
                 onStats: () => _openStats(context),
               );
               final hero = FittedBox(

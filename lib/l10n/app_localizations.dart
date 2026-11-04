@@ -218,6 +218,24 @@ abstract class AppLocalizations {
   /// **'Sound off'**
   String get soundOff;
 
+  /// No description provided for @themeSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme: follow device'**
+  String get themeSystem;
+
+  /// No description provided for @themeLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme: light'**
+  String get themeLight;
+
+  /// No description provided for @themeDark.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme: dark'**
+  String get themeDark;
+
   /// No description provided for @back.
   ///
   /// In en, this message translates to:

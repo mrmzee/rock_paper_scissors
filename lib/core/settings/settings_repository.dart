@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:rock_paper_scissors/core/settings/app_settings.dart';
 import 'package:rock_paper_scissors/features/game/domain/entities/difficulty.dart';
 import 'package:rock_paper_scissors/features/game/domain/entities/match_mode.dart';
@@ -31,6 +31,7 @@ final class PreferencesSettingsRepository implements SettingsRepository {
   static const _soundKey = 'settings.sound';
   static const _modeKey = 'settings.mode';
   static const _difficultyKey = 'settings.difficulty';
+  static const _themeModeKey = 'settings.themeMode';
 
   @override
   AppSettings load() {
@@ -43,6 +44,8 @@ final class PreferencesSettingsRepository implements SettingsRepository {
       difficulty:
           _byName(Difficulty.values, _prefs.getString(_difficultyKey)) ??
               Difficulty.normal,
+      themeMode: _byName(ThemeMode.values, _prefs.getString(_themeModeKey)) ??
+          ThemeMode.system,
     );
   }
 
@@ -57,6 +60,7 @@ final class PreferencesSettingsRepository implements SettingsRepository {
     await _prefs.setBool(_soundKey, settings.soundOn);
     await _prefs.setString(_modeKey, settings.mode.name);
     await _prefs.setString(_difficultyKey, settings.difficulty.name);
+    await _prefs.setString(_themeModeKey, settings.themeMode.name);
   }
 
   static T? _byName<T extends Enum>(List<T> values, String? name) {

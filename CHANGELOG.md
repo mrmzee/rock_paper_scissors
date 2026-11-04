@@ -14,6 +14,11 @@ All notable changes to this project are documented here. The format follows
 - Tests for settings, preference-backed repositories, the robot strategy and home navigation.
 - App icon and splash screen generated from the in-app robot artwork.
 - Localized app name on Android and iOS ("سنگ کاغذ قیچی" in Persian).
+- Theme button on the home screen: follow device, light or dark (remembered).
+
+### Fixed
+
+- Readable button labels on yellow and blue buttons in dark mode.
 
 ### Changed
 

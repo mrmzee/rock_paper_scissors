@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rock_paper_scissors/core/settings/app_settings.dart';
 import 'package:rock_paper_scissors/core/settings/settings_repository.dart';
@@ -18,6 +18,16 @@ final class SettingsCubit extends Cubit<AppSettings> {
   }
 
   void toggleSound() => _update(state.copyWith(soundOn: !state.soundOn));
+
+  /// Steps through system → light → dark → system.
+  void cycleThemeMode() {
+    final next = switch (state.themeMode) {
+      ThemeMode.system => ThemeMode.light,
+      ThemeMode.light => ThemeMode.dark,
+      ThemeMode.dark => ThemeMode.system,
+    };
+    _update(state.copyWith(themeMode: next));
+  }
 
   void selectMode(MatchMode mode) => _update(state.copyWith(mode: mode));
 

@@ -1,5 +1,5 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:rock_paper_scissors/core/settings/app_settings.dart';
@@ -57,6 +57,20 @@ void main() {
       ..toggleSound(),
     expect: () => [
       const AppSettings(soundOn: false),
+      const AppSettings(),
+    ],
+  );
+
+  blocTest<SettingsCubit, AppSettings>(
+    'cycleThemeMode steps system, light, dark and back',
+    build: () => SettingsCubit(repository),
+    act: (cubit) => cubit
+      ..cycleThemeMode()
+      ..cycleThemeMode()
+      ..cycleThemeMode(),
+    expect: () => [
+      const AppSettings(themeMode: ThemeMode.light),
+      const AppSettings(themeMode: ThemeMode.dark),
       const AppSettings(),
     ],
   );
