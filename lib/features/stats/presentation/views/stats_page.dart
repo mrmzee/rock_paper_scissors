@@ -8,6 +8,9 @@ import 'package:rock_paper_scissors/core/widgets/app_background.dart';
 import 'package:rock_paper_scissors/core/widgets/toy_surface.dart';
 import 'package:rock_paper_scissors/features/game/domain/entities/player_stats.dart';
 import 'package:rock_paper_scissors/features/game/domain/repositories/stats_repository.dart';
+import 'package:rock_paper_scissors/features/stats/presentation/widgets/favorite_move_card.dart';
+import 'package:rock_paper_scissors/features/stats/presentation/widgets/reset_stats_dialog.dart';
+import 'package:rock_paper_scissors/features/stats/presentation/widgets/robot_win_rates.dart';
 
 class StatsPage extends StatefulWidget {
   const StatsPage({super.key});
@@ -25,7 +28,26 @@ class _StatsPageState extends State<StatsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AppBar(title: Text(context.l10n.myTrophies)),
+      appBar: AppBar(
+        title: Text(context.l10n.myTrophies),
+        actions: [
+          FutureBuilder<PlayerStats>(
+            future: _future,
+            builder: (context, snapshot) {
+              final stats = snapshot.data;
+              if (stats == null || stats.isEmpty) {
+                return const SizedBox.shrink();
+              }
+              return IconButton(
+                key: const Key('reset_stats'),
+                tooltip: context.l10n.resetStats,
+                icon: const Icon(Icons.delete_sweep_rounded),
+                onPressed: _reset,
+              );
+            },
+          ),
+        ],
+      ),
       body: AppBackground(
         child: SafeArea(
           child: Padding(
@@ -45,9 +67,10 @@ class _StatsPageState extends State<StatsPage> {
                 }
 
                 final stats = snapshot.data!;
-                if (stats.roundsPlayed == 0 && stats.matchesPlayed == 0) {
+                if (stats.isEmpty) {
                   return const _EmptyStats();
                 }
+                final favorite = stats.favoriteMove;
 
                 return Align(
                   alignment: Alignment.topCenter,
@@ -66,6 +89,15 @@ class _StatsPageState extends State<StatsPage> {
                         _WinRateCard(stats: stats),
                         const SizedBox(height: AppSpacing.lg),
                         _StatsTiles(stats: stats),
+                        if (favorite != null) ...[
+                          const SizedBox(height: AppSpacing.lg),
+                          FavoriteMoveCard(
+                            move: favorite,
+                            count: stats.movesPlayed[favorite] ?? 0,
+                          ),
+                        ],
+                        const SizedBox(height: AppSpacing.lg),
+                        RobotWinRates(stats: stats),
                       ],
                     ),
                   ),
@@ -79,7 +111,16 @@ class _StatsPageState extends State<StatsPage> {
   }
 
   void _reload() {
-    setState(() => _future = _load());
+    setState(() {
+      _future = _load();
+    });
+  }
+
+  Future<void> _reset() async {
+    final repository = context.read<StatsRepository>();
+    if (!await confirmResetStats(context)) return;
+    await repository.clear();
+    if (mounted) _reload();
   }
 }
 
@@ -322,16 +363,39 @@ class _StatsTiles extends StatelessWidget {
         badgeInk: scheme.onTertiary,
         icon: Icons.bolt_rounded,
       ),
+      _StatToy(
+        value: context.number(stats.currentStreak),
+        label: l10n.currentStreak,
+        color: scheme.primaryContainer,
+        ink: scheme.onPrimaryContainer,
+        badgeColor: scheme.secondary,
+        badgeInk: scheme.onSecondary,
+        icon: Icons.local_fire_department_rounded,
+      ),
     ];
 
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        for (var index = 0; index < tiles.length; index++) ...[
-          if (index > 0) const SizedBox(width: AppSpacing.sm),
-          Expanded(child: tiles[index]),
-        ],
-      ],
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final perRow = constraints.maxWidth >= 560 ? tiles.length : 2;
+        return Column(
+          children: [
+            for (var start = 0; start < tiles.length; start += perRow) ...[
+              if (start > 0) const SizedBox(height: AppSpacing.md),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  for (var index = start;
+                      index < start + perRow && index < tiles.length;
+                      index++) ...[
+                    if (index > start) const SizedBox(width: AppSpacing.sm),
+                    Expanded(child: tiles[index]),
+                  ],
+                ],
+              ),
+            ],
+          ],
+        );
+      },
     );
   }
 }

@@ -210,6 +210,49 @@ class AppLocalizationsEn extends AppLocalizations {
   String get bestStreak => 'Best streak';
 
   @override
+  String get currentStreak => 'In a row now';
+
+  @override
+  String get favoriteMove => 'Favorite hand';
+
+  @override
+  String timesPlayed(int count) {
+    final intl.NumberFormat countNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String countString = countNumberFormat.format(count);
+
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$countString times',
+      one: '1 time',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get vsRobots => 'Against each robot';
+
+  @override
+  String get notPlayedYet => 'Not played yet';
+
+  @override
+  String get resetStats => 'Reset stats';
+
+  @override
+  String get resetStatsTitle => 'Reset all stats?';
+
+  @override
+  String get resetStatsBody =>
+      'Your trophies and records will be erased. This can\'t be undone.';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get reset => 'Reset';
+
+  @override
   String get noStatsYet => 'Play a game to win trophies!';
 
   @override

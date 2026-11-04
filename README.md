@@ -14,7 +14,7 @@ A kid-friendly Flutter Rock Paper Scissors game with a robot opponent, English a
 - Confetti, sound effects (mutable) and haptic feedback
 - English and Persian with runtime language switch; choices are remembered
 - Light, dark or follow-device theme
-- Lifetime stats stored with `shared_preferences`
+- Lifetime stats (favorite hand, streaks, win rate per robot) stored with `shared_preferences`, with reset
 - Respects the system "reduce motion" setting
 - Clean architecture: domain / data / presentation + Bloc
 
@@ -90,8 +90,8 @@ Each feature follows `domain` (entities, repository interfaces, use cases) → `
 ## Roadmap
 
 - [x] Theme selection (system / light / dark)
-- [ ] Reset stats from the trophies page
-- [ ] Richer stats: favorite move, win rate per robot, current streak
+- [x] Reset stats from the trophies page
+- [x] Richer stats: favorite move, win rate per robot, current streak
 - [ ] First-launch "how to play" onboarding
 - [ ] Two-player pass-and-play mode
 - [ ] Achievements / badges

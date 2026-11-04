@@ -15,13 +15,13 @@ All notable changes to this project are documented here. The format follows
 - App icon and splash screen generated from the in-app robot artwork.
 - Localized app name on Android and iOS ("سنگ کاغذ قیچی" in Persian).
 - Theme button on the home screen: follow device, light or dark (remembered).
-
-### Fixed
-
-- Readable button labels on yellow and blue buttons in dark mode.
+- Richer trophies page: favorite hand, current streak and win rate against each robot.
+- Reset stats from the trophies page (with confirmation).
 
 ### Changed
 
+- Stats are stored as one versioned JSON document; totals from older versions are migrated automatically.
+- Best streak now counts round wins across matches.
 - Dependencies are provided once from `RockPaperScissorsApp` and read from context.
 - Home and game screens are split into smaller widget files.
 - Stricter lint rules (`flutter_lints` 6 plus extra rules).
@@ -31,6 +31,11 @@ All notable changes to this project are documented here. The format follows
 ### Removed
 
 - Unused `MatchModeX.label` and the legacy root `images/` folder.
+
+### Fixed
+
+- Readable button labels on yellow and blue buttons in dark mode.
+- The trophies page "Try again" button did not reload.
 
 ## [3.0.0]
 

@@ -14,4 +14,9 @@ final class InMemoryStatsRepository implements StatsRepository {
   Future<void> save(PlayerStats stats) async {
     _stats = stats;
   }
+
+  @override
+  Future<void> clear() async {
+    _stats = const PlayerStats();
+  }
 }
