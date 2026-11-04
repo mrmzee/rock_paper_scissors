@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rock_paper_scissors/features/achievements/domain/usecases/unlock_achievements.dart';
 import 'package:rock_paper_scissors/features/game/domain/entities/match.dart';
+import 'package:rock_paper_scissors/features/game/domain/entities/opponent.dart';
 import 'package:rock_paper_scissors/features/game/domain/entities/round.dart';
 import 'package:rock_paper_scissors/features/game/domain/usecases/play_round.dart';
 import 'package:rock_paper_scissors/features/game/domain/usecases/record_match_stats.dart';
@@ -23,6 +24,7 @@ final class GameBloc extends Bloc<GameEvent, GameState> {
         super(GameState.initial(initialMatch)) {
     on<GameStarted>(_onStarted);
     on<GameMoveSelected>(_onMoveSelected);
+    on<GameHandoffConfirmed>(_onHandoffConfirmed);
     on<GameRoundAcknowledged>(_onRoundAcknowledged);
     on<GameResetRequested>(_onReset);
     on<GameExited>(_onExited);
@@ -44,7 +46,11 @@ final class GameBloc extends Bloc<GameEvent, GameState> {
     _statsRecorded = false;
     emit(
       GameState.initial(
-        Match.start(mode: event.mode, difficulty: event.difficulty),
+        Match.start(
+          mode: event.mode,
+          difficulty: event.difficulty,
+          opponent: event.opponent,
+        ),
       ),
     );
   }
@@ -55,7 +61,20 @@ final class GameBloc extends Bloc<GameEvent, GameState> {
   ) async {
     if (!state.canPick) return;
 
-    final updated = _playRound(match: state.match, playerMove: event.move);
+    final firstMove = state.firstMove;
+    final isFriend = state.match.opponent == Opponent.friend;
+    if (isFriend && firstMove == null) {
+      emit(state.copyWith(firstMove: event.move, phase: GamePhase.handoff));
+      return;
+    }
+
+    final updated = isFriend
+        ? _playRound(
+            match: state.match,
+            playerMove: firstMove!,
+            opponentMove: event.move,
+          )
+        : _playRound(match: state.match, playerMove: event.move);
     final round = updated.lastRound!;
 
     emit(
@@ -64,6 +83,7 @@ final class GameBloc extends Bloc<GameEvent, GameState> {
         selectedMove: event.move,
         pendingRound: round,
         phase: GamePhase.revealing,
+        clearFirst: true,
       ),
     );
 
@@ -93,6 +113,14 @@ final class GameBloc extends Bloc<GameEvent, GameState> {
     }
   }
 
+  void _onHandoffConfirmed(
+    GameHandoffConfirmed event,
+    Emitter<GameState> emit,
+  ) {
+    if (state.phase != GamePhase.handoff) return;
+    emit(state.copyWith(phase: GamePhase.picking));
+  }
+
   void _onRoundAcknowledged(
     GameRoundAcknowledged event,
     Emitter<GameState> emit,
@@ -118,6 +146,7 @@ final class GameBloc extends Bloc<GameEvent, GameState> {
         Match.start(
           mode: state.match.mode,
           difficulty: state.match.difficulty,
+          opponent: state.match.opponent,
         ),
       ),
     );
@@ -134,8 +163,9 @@ final class GameBloc extends Bloc<GameEvent, GameState> {
 
   /// Badges are checked after every round so Endless matches earn them too;
   /// this must run before the match is recorded so the preview counts it once.
+  /// Pass-and-play matches never touch stats or badges.
   Future<void> _unlockFor(Match match, Emitter<GameState> emit) async {
-    if (_statsRecorded) return;
+    if (_statsRecorded || match.opponent == Opponent.friend) return;
     final stats = await _recordMatchStats.preview(match);
     final earned = await _unlockAchievements(match, stats);
     if (earned.isEmpty || emit.isDone || !identical(state.match, match)) {
@@ -145,7 +175,11 @@ final class GameBloc extends Bloc<GameEvent, GameState> {
   }
 
   Future<void> _persistStats(Match match) async {
-    if (_statsRecorded || match.history.isEmpty) return;
+    if (_statsRecorded ||
+        match.history.isEmpty ||
+        match.opponent == Opponent.friend) {
+      return;
+    }
     _statsRecorded = true;
     await _recordMatchStats(match);
   }

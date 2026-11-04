@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:rock_paper_scissors/features/game/domain/entities/difficulty.dart';
 import 'package:rock_paper_scissors/features/game/domain/entities/match_mode.dart';
+import 'package:rock_paper_scissors/features/game/domain/entities/opponent.dart';
 import 'package:rock_paper_scissors/features/game/domain/entities/round.dart';
 import 'package:rock_paper_scissors/features/game/domain/entities/round_outcome.dart';
 import 'package:rock_paper_scissors/features/game/domain/entities/scoreboard.dart';
@@ -10,6 +11,7 @@ final class Match extends Equatable {
   const Match({
     required this.mode,
     required this.difficulty,
+    this.opponent = Opponent.robot,
     this.scoreboard = const Scoreboard(),
     this.history = const [],
     this.currentStreak = 0,
@@ -21,12 +23,16 @@ final class Match extends Equatable {
   factory Match.start({
     required MatchMode mode,
     required Difficulty difficulty,
+    Opponent opponent = Opponent.robot,
   }) {
-    return Match(mode: mode, difficulty: difficulty);
+    return Match(mode: mode, difficulty: difficulty, opponent: opponent);
   }
 
   final MatchMode mode;
   final Difficulty difficulty;
+
+  /// With [Opponent.friend], "player" is Player 1 and the opponent Player 2.
+  final Opponent opponent;
   final Scoreboard scoreboard;
   final List<Round> history;
   final int currentStreak;
@@ -54,6 +60,7 @@ final class Match extends Equatable {
         return Match(
           mode: mode,
           difficulty: difficulty,
+          opponent: opponent,
           scoreboard: nextScore,
           history: nextHistory,
           currentStreak: nextStreak,
@@ -66,6 +73,7 @@ final class Match extends Equatable {
         return Match(
           mode: mode,
           difficulty: difficulty,
+          opponent: opponent,
           scoreboard: nextScore,
           history: nextHistory,
           currentStreak: nextStreak,
@@ -79,6 +87,7 @@ final class Match extends Equatable {
     return Match(
       mode: mode,
       difficulty: difficulty,
+      opponent: opponent,
       scoreboard: nextScore,
       history: nextHistory,
       currentStreak: nextStreak,
@@ -90,6 +99,7 @@ final class Match extends Equatable {
   List<Object?> get props => [
         mode,
         difficulty,
+        opponent,
         scoreboard,
         history,
         currentStreak,

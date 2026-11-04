@@ -11,13 +11,16 @@ import 'package:rock_paper_scissors/core/widgets/toy_surface.dart';
 import 'package:rock_paper_scissors/features/achievements/domain/entities/achievement.dart';
 import 'package:rock_paper_scissors/features/achievements/presentation/widgets/new_achievements.dart';
 import 'package:rock_paper_scissors/features/game/domain/entities/match.dart';
+import 'package:rock_paper_scissors/features/game/presentation/mappers/match_sides.dart';
 import 'package:rock_paper_scissors/features/game/presentation/mappers/robot_look.dart';
+import 'package:rock_paper_scissors/features/game/presentation/widgets/opponent_avatar.dart';
 import 'package:rock_paper_scissors/features/game/presentation/widgets/player_badge.dart';
 import 'package:rock_paper_scissors/features/game/presentation/widgets/robot_avatar.dart';
 
 enum MatchResultAction { playAgain, home }
 
-/// Full-screen celebration (or consolation) after a 3-star match.
+/// Full-screen celebration (or consolation) after a 3-star match. A
+/// pass-and-play match always ends in a celebration for the winner.
 class MatchResultPage extends StatefulWidget {
   const MatchResultPage({
     super.key,
@@ -65,13 +68,15 @@ class _MatchResultPageState extends State<MatchResultPage> {
 
   bool get _won => widget.match.playerWon == true;
 
+  bool get _celebrate => _won || widget.match.isPassAndPlay;
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
-      context.playSfx(_won ? Sfx.matchWin : Sfx.matchLose);
-      if (_won && !AppMotion.reduced(context)) _confetti.play();
+      context.playSfx(_celebrate ? Sfx.matchWin : Sfx.matchLose);
+      if (_celebrate && !AppMotion.reduced(context)) _confetti.play();
     });
   }
 
@@ -90,8 +95,17 @@ class _MatchResultPageState extends State<MatchResultPage> {
     final match = widget.match;
     final robotName = match.difficulty.robotName(context);
 
-    final title = _won ? l10n.matchWinTitle : l10n.matchLoseTitle(robotName);
-    final subtitle = _won ? l10n.matchWinSubtitle : l10n.matchLoseSubtitle;
+    final String title;
+    final String subtitle;
+    if (match.isPassAndPlay) {
+      title = l10n.playerWinsMatch(
+        _won ? match.playerName(context) : match.opponentName(context),
+      );
+      subtitle = l10n.friendMatchSubtitle;
+    } else {
+      title = _won ? l10n.matchWinTitle : l10n.matchLoseTitle(robotName);
+      subtitle = _won ? l10n.matchWinSubtitle : l10n.matchLoseSubtitle;
+    }
 
     return Scaffold(
       body: AppBackground(
@@ -114,7 +128,7 @@ class _MatchResultPageState extends State<MatchResultPage> {
                             curve: AppMotion.pop,
                             builder: (context, scale, child) =>
                                 Transform.scale(scale: scale, child: child),
-                            child: _won
+                            child: _celebrate
                                 ? ToyBadge(
                                     color: colors.star,
                                     size: 120,
@@ -214,7 +228,6 @@ class _FinalScore extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
-    final robotName = match.difficulty.robotName(context);
     final scoreStyle = theme.textTheme.headlineLarge?.copyWith(
       color: scheme.onSurface,
       fontWeight: FontWeight.w800,
@@ -222,11 +235,7 @@ class _FinalScore extends StatelessWidget {
     );
 
     return Semantics(
-      label: context.l10n.scoreSemantics(
-        match.scoreboard.wins,
-        robotName,
-        match.scoreboard.losses,
-      ),
+      label: match.scoreSemantics(context),
       excludeSemantics: true,
       child: DecoratedBox(
         decoration: BoxDecoration(
@@ -243,8 +252,8 @@ class _FinalScore extends StatelessWidget {
               Text(context.number(match.scoreboard.wins), style: scoreStyle),
               Text('-', style: scoreStyle),
               Text(context.number(match.scoreboard.losses), style: scoreStyle),
-              RobotAvatar(
-                difficulty: match.difficulty,
+              OpponentAvatar(
+                match: match,
                 mood: won ? RobotMood.sad : RobotMood.happy,
                 size: 52,
               ),

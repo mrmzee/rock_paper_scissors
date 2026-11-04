@@ -8,7 +8,7 @@
   "modeBestOf5Hint": "First to 3 wins",
   "modeEndless": "Endless",
   "modeEndlessHint": "Play as long as you like",
-  "chooseRobot": "Pick your robot",
+  "chooseRobot": "Pick your opponent",
   "robotEasy": "Robo Jr.",
   "robotNormal": "Robo",
   "robotHard": "Grumpy Robo",
@@ -165,5 +165,39 @@
       "total": {"type": "int", "format": "decimalPattern"}
     }
   },
-  "loading": "Loading"
+  "loading": "Loading",
+  "opponentFriend": "A friend",
+  "opponentFriendHint": "Two players, one phone",
+  "player1": "Player 1",
+  "player2": "Player 2",
+  "playerTurn": "{player}, pick!",
+  "@playerTurn": {
+    "placeholders": {
+      "player": {"type": "String"}
+    }
+  },
+  "handoffTitle": "Pass the phone to {player}",
+  "@handoffTitle": {
+    "placeholders": {
+      "player": {"type": "String"}
+    }
+  },
+  "handoffHint": "No peeking!",
+  "handoffReady": "I'm ready",
+  "playerWinsMatch": "{player} is the champion!",
+  "@playerWinsMatch": {
+    "placeholders": {
+      "player": {"type": "String"}
+    }
+  },
+  "friendMatchSubtitle": "What a game!",
+  "versusScoreSemantics": "{player} {wins}, {opponent} {losses}",
+  "@versusScoreSemantics": {
+    "placeholders": {
+      "player": {"type": "String"},
+      "wins": {"type": "int", "format": "decimalPattern"},
+      "opponent": {"type": "String"},
+      "losses": {"type": "int", "format": "decimalPattern"}
+    }
+  }
 }

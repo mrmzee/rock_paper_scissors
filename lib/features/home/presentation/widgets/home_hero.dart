@@ -8,13 +8,16 @@ import 'package:rock_paper_scissors/features/game/domain/entities/difficulty.dar
 import 'package:rock_paper_scissors/features/game/domain/entities/move.dart';
 import 'package:rock_paper_scissors/features/game/presentation/mappers/robot_look.dart';
 import 'package:rock_paper_scissors/features/game/presentation/widgets/hand_art.dart';
+import 'package:rock_paper_scissors/features/game/presentation/widgets/player_badge.dart';
 import 'package:rock_paper_scissors/features/game/presentation/widgets/robot_avatar.dart';
 
-/// Selected robot with floating hands, the title and the greeting.
+/// Selected robot (or two players) with floating hands, the title and the
+/// greeting.
 class HomeHero extends StatefulWidget {
-  const HomeHero({super.key, required this.difficulty});
+  const HomeHero({super.key, required this.difficulty, this.friend = false});
 
   final Difficulty difficulty;
+  final bool friend;
 
   @override
   State<HomeHero> createState() => _HomeHeroState();
@@ -83,11 +86,16 @@ class _HomeHeroState extends State<HomeHero>
                   ],
                 ),
                 const SizedBox(width: AppSpacing.sm),
-                RobotAvatar(
-                  difficulty: widget.difficulty,
-                  size: 108,
-                  semanticLabel: widget.difficulty.robotName(context),
-                ),
+                if (widget.friend) ...[
+                  const PlayerBadge(size: 84),
+                  const SizedBox(width: AppSpacing.xs),
+                  const PlayerBadge(size: 84, second: true),
+                ] else
+                  RobotAvatar(
+                    difficulty: widget.difficulty,
+                    size: 108,
+                    semanticLabel: widget.difficulty.robotName(context),
+                  ),
                 const SizedBox(width: AppSpacing.sm),
                 floatingHand(Move.scissors, 4, 0.25),
               ],

@@ -7,6 +7,7 @@ import 'package:rock_paper_scissors/core/settings/settings_cubit.dart';
 import 'package:rock_paper_scissors/core/settings/settings_repository.dart';
 import 'package:rock_paper_scissors/features/game/domain/entities/difficulty.dart';
 import 'package:rock_paper_scissors/features/game/domain/entities/match_mode.dart';
+import 'package:rock_paper_scissors/features/game/domain/entities/opponent.dart';
 
 class _MockSettingsRepository extends Mock implements SettingsRepository {}
 
@@ -96,6 +97,18 @@ void main() {
     expect: () => [
       const AppSettings(mode: MatchMode.endless),
       const AppSettings(mode: MatchMode.endless, difficulty: Difficulty.hard),
+    ],
+  );
+
+  blocTest<SettingsCubit, AppSettings>(
+    'playWithFriend switches opponent and picking a robot switches back',
+    build: () => SettingsCubit(repository),
+    act: (cubit) => cubit
+      ..playWithFriend()
+      ..selectDifficulty(Difficulty.normal),
+    expect: () => [
+      const AppSettings(opponent: Opponent.friend),
+      const AppSettings(),
     ],
   );
 

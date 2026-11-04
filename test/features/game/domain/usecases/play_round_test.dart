@@ -3,6 +3,7 @@ import 'package:rock_paper_scissors/features/game/domain/entities/difficulty.dar
 import 'package:rock_paper_scissors/features/game/domain/entities/match.dart';
 import 'package:rock_paper_scissors/features/game/domain/entities/match_mode.dart';
 import 'package:rock_paper_scissors/features/game/domain/entities/move.dart';
+import 'package:rock_paper_scissors/features/game/domain/entities/opponent.dart';
 import 'package:rock_paper_scissors/features/game/domain/entities/round_outcome.dart';
 import 'package:rock_paper_scissors/features/game/domain/entities/round_rules.dart';
 import 'package:rock_paper_scissors/features/game/domain/usecases/play_round.dart';
@@ -87,6 +88,25 @@ void main() {
       expect(afterDraw.scoreboard.wins, 1);
       expect(afterDraw.scoreboard.draws, 1);
       expect(afterDraw.currentStreak, 1);
+    });
+
+    test('uses a given opponent move instead of the strategy', () {
+      final playRound = PlayRound(SequenceOpponentStrategy([Move.rock]));
+      final match = Match.start(
+        mode: MatchMode.bestOf5,
+        difficulty: Difficulty.easy,
+        opponent: Opponent.friend,
+      );
+
+      final next = playRound(
+        match: match,
+        playerMove: Move.paper,
+        opponentMove: Move.scissors,
+      );
+
+      expect(next.lastRound!.opponentMove, Move.scissors);
+      expect(next.scoreboard.losses, 1);
+      expect(next.opponent, Opponent.friend);
     });
   });
 

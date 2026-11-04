@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rock_paper_scissors/core/settings/app_settings.dart';
 import 'package:rock_paper_scissors/features/game/domain/entities/difficulty.dart';
 import 'package:rock_paper_scissors/features/game/domain/entities/match_mode.dart';
+import 'package:rock_paper_scissors/features/game/domain/entities/opponent.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract interface class SettingsRepository {
@@ -31,6 +32,7 @@ final class PreferencesSettingsRepository implements SettingsRepository {
   static const _soundKey = 'settings.sound';
   static const _modeKey = 'settings.mode';
   static const _difficultyKey = 'settings.difficulty';
+  static const _opponentKey = 'settings.opponent';
   static const _themeModeKey = 'settings.themeMode';
   static const _onboardingSeenKey = 'settings.onboardingSeen';
 
@@ -45,6 +47,8 @@ final class PreferencesSettingsRepository implements SettingsRepository {
       difficulty:
           _byName(Difficulty.values, _prefs.getString(_difficultyKey)) ??
               Difficulty.normal,
+      opponent: _byName(Opponent.values, _prefs.getString(_opponentKey)) ??
+          Opponent.robot,
       themeMode: _byName(ThemeMode.values, _prefs.getString(_themeModeKey)) ??
           ThemeMode.system,
       onboardingSeen: _prefs.getBool(_onboardingSeenKey) ?? false,
@@ -62,6 +66,7 @@ final class PreferencesSettingsRepository implements SettingsRepository {
     await _prefs.setBool(_soundKey, settings.soundOn);
     await _prefs.setString(_modeKey, settings.mode.name);
     await _prefs.setString(_difficultyKey, settings.difficulty.name);
+    await _prefs.setString(_opponentKey, settings.opponent.name);
     await _prefs.setString(_themeModeKey, settings.themeMode.name);
     await _prefs.setBool(_onboardingSeenKey, settings.onboardingSeen);
   }

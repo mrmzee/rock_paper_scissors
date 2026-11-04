@@ -11,19 +11,25 @@ import 'package:rock_paper_scissors/features/game/presentation/mappers/move_asse
 /// Middle of the stage: a prompt while picking, the "rock, paper, scissors"
 /// chant while revealing, then a big result banner. Content keeps its natural
 /// width, so wrap it in a [FittedBox] where space is tight.
+///
+/// [playerName] is only set in pass-and-play; otherwise the player is "you".
 class BattleCenter extends StatefulWidget {
   const BattleCenter({
     super.key,
     required this.phase,
     required this.outcome,
-    required this.robotName,
+    required this.prompt,
+    required this.opponentName,
     required this.chantDuration,
+    this.playerName,
     this.onBeat,
   });
 
   final GamePhase phase;
   final RoundOutcome? outcome;
-  final String robotName;
+  final String prompt;
+  final String opponentName;
+  final String? playerName;
   final Duration chantDuration;
 
   /// Called at the start of each of the three chant beats.
@@ -108,7 +114,12 @@ class _BattleCenterState extends State<BattleCenter>
   @override
   Widget build(BuildContext context) {
     final Widget content = switch (widget.phase) {
-      GamePhase.picking => _Prompt(key: const ValueKey('prompt'), bob: _bob),
+      GamePhase.picking => _Prompt(
+          key: ValueKey('prompt${widget.prompt}'),
+          text: widget.prompt,
+          bob: _bob,
+        ),
+      GamePhase.handoff => const SizedBox.shrink(key: ValueKey('handoff')),
       GamePhase.revealing => _ChantWord(
           key: ValueKey('chant$_beat'),
           move: Move.values[_beat.clamp(0, _beats - 1)],
@@ -117,7 +128,8 @@ class _BattleCenterState extends State<BattleCenter>
       GamePhase.roundResult || GamePhase.matchOver => _ResultBanner(
           key: ValueKey('result${widget.outcome}'),
           outcome: widget.outcome,
-          robotName: widget.robotName,
+          opponentName: widget.opponentName,
+          playerName: widget.playerName,
           showHint: widget.phase == GamePhase.roundResult,
         ),
     };
@@ -138,8 +150,9 @@ class _BattleCenterState extends State<BattleCenter>
 }
 
 class _Prompt extends StatelessWidget {
-  const _Prompt({super.key, required this.bob});
+  const _Prompt({super.key, required this.text, required this.bob});
 
+  final String text;
   final Animation<double> bob;
 
   @override
@@ -164,7 +177,7 @@ class _Prompt extends StatelessWidget {
         ),
         const SizedBox(width: AppSpacing.xs),
         Text(
-          context.l10n.pickPrompt,
+          text,
           textAlign: TextAlign.center,
           style: theme.textTheme.titleLarge?.copyWith(
             color: scheme.onSurface,
@@ -204,12 +217,14 @@ class _ResultBanner extends StatelessWidget {
   const _ResultBanner({
     super.key,
     required this.outcome,
-    required this.robotName,
+    required this.opponentName,
+    required this.playerName,
     required this.showHint,
   });
 
   final RoundOutcome? outcome;
-  final String robotName;
+  final String opponentName;
+  final String? playerName;
   final bool showHint;
 
   @override
@@ -220,10 +235,20 @@ class _ResultBanner extends StatelessWidget {
     final outcome = this.outcome;
     if (outcome == null) return const SizedBox.shrink();
 
+    final playerName = this.playerName;
     final (text, icon, color) = switch (outcome) {
-      RoundOutcome.win => (l10n.youWin, Icons.emoji_events_rounded, colors.win),
+      RoundOutcome.win => (
+          playerName == null ? l10n.youWin : l10n.robotWins(playerName),
+          Icons.emoji_events_rounded,
+          colors.win,
+        ),
+      RoundOutcome.loss when playerName != null => (
+          l10n.robotWins(opponentName),
+          Icons.emoji_events_rounded,
+          theme.colorScheme.tertiary,
+        ),
       RoundOutcome.loss => (
-          l10n.robotWins(robotName),
+          l10n.robotWins(opponentName),
           Icons.smart_toy_rounded,
           colors.loss,
         ),

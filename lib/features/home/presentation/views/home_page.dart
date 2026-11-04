@@ -9,7 +9,9 @@ import 'package:rock_paper_scissors/core/theme/app_spacing.dart';
 import 'package:rock_paper_scissors/core/widgets/app_background.dart';
 import 'package:rock_paper_scissors/features/game/domain/entities/difficulty.dart';
 import 'package:rock_paper_scissors/features/game/domain/entities/match_mode.dart';
+import 'package:rock_paper_scissors/features/game/domain/entities/opponent.dart';
 import 'package:rock_paper_scissors/features/game/presentation/views/game_page.dart';
+import 'package:rock_paper_scissors/features/home/presentation/widgets/friend_card.dart';
 import 'package:rock_paper_scissors/features/home/presentation/widgets/home_hero.dart';
 import 'package:rock_paper_scissors/features/home/presentation/widgets/home_top_bar.dart';
 import 'package:rock_paper_scissors/features/home/presentation/widgets/mode_card.dart';
@@ -27,7 +29,11 @@ class HomePage extends StatelessWidget {
     Navigator.of(context).push(
       _fadeRoute(
         context,
-        GamePage(mode: settings.mode, difficulty: settings.difficulty),
+        GamePage(
+          mode: settings.mode,
+          difficulty: settings.difficulty,
+          opponent: settings.opponent,
+        ),
       ),
     );
   }
@@ -93,7 +99,10 @@ class HomePage extends StatelessWidget {
               );
               final hero = FittedBox(
                 fit: BoxFit.scaleDown,
-                child: HomeHero(difficulty: settings.difficulty),
+                child: HomeHero(
+                  difficulty: settings.difficulty,
+                  friend: settings.opponent == Opponent.friend,
+                ),
               );
               final choices = Column(
                 mainAxisSize: MainAxisSize.min,
@@ -141,7 +150,8 @@ class HomePage extends StatelessWidget {
                           Expanded(
                             child: RobotCard(
                               difficulty: difficulty,
-                              selected: settings.difficulty == difficulty,
+                              selected: settings.opponent == Opponent.robot &&
+                                  settings.difficulty == difficulty,
                               onPressed: () {
                                 context.playSfx(Sfx.tap);
                                 cubit.selectDifficulty(difficulty);
@@ -149,6 +159,16 @@ class HomePage extends StatelessWidget {
                             ),
                           ),
                         ],
+                        const SizedBox(width: AppSpacing.sm),
+                        Expanded(
+                          child: FriendCard(
+                            selected: settings.opponent == Opponent.friend,
+                            onPressed: () {
+                              context.playSfx(Sfx.tap);
+                              cubit.playWithFriend();
+                            },
+                          ),
+                        ),
                       ],
                     ),
                   ),

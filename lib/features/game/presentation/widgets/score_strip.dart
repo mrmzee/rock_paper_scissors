@@ -3,36 +3,28 @@ import 'package:rock_paper_scissors/core/l10n/l10n.dart';
 import 'package:rock_paper_scissors/core/theme/app_motion.dart';
 import 'package:rock_paper_scissors/core/theme/app_spacing.dart';
 import 'package:rock_paper_scissors/core/theme/game_colors.dart';
-import 'package:rock_paper_scissors/features/game/domain/entities/difficulty.dart';
-import 'package:rock_paper_scissors/features/game/presentation/mappers/robot_look.dart';
+import 'package:rock_paper_scissors/features/game/domain/entities/match.dart';
+import 'package:rock_paper_scissors/features/game/domain/entities/match_mode.dart';
+import 'package:rock_paper_scissors/features/game/presentation/mappers/match_sides.dart';
+import 'package:rock_paper_scissors/features/game/presentation/widgets/opponent_avatar.dart';
 import 'package:rock_paper_scissors/features/game/presentation/widgets/player_badge.dart';
-import 'package:rock_paper_scissors/features/game/presentation/widgets/robot_avatar.dart';
 
 /// Match score as stars to collect (3-star mode) or plain counters (endless).
 class ScoreStrip extends StatelessWidget {
-  const ScoreStrip({
-    super.key,
-    required this.wins,
-    required this.losses,
-    required this.winsNeeded,
-    required this.difficulty,
-  });
+  const ScoreStrip({super.key, required this.match});
 
-  final int wins;
-  final int losses;
-  final int? winsNeeded;
-  final Difficulty difficulty;
+  final Match match;
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
-    final robotName = difficulty.robotName(context);
+    final winsNeeded = match.mode.winsNeeded;
 
     return Semantics(
       container: true,
       liveRegion: true,
-      label: context.l10n.scoreSemantics(wins, robotName, losses),
+      label: match.scoreSemantics(context),
       excludeSemantics: true,
       child: DecoratedBox(
         decoration: BoxDecoration(
@@ -60,7 +52,7 @@ class ScoreStrip extends StatelessWidget {
                 const SizedBox(width: AppSpacing.xs),
                 _SideScore(
                   key: const Key('player_score'),
-                  value: wins,
+                  value: match.scoreboard.wins,
                   goal: winsNeeded,
                 ),
                 Padding(
@@ -77,11 +69,11 @@ class ScoreStrip extends StatelessWidget {
                 ),
                 _SideScore(
                   key: const Key('robot_score'),
-                  value: losses,
+                  value: match.scoreboard.losses,
                   goal: winsNeeded,
                 ),
                 const SizedBox(width: AppSpacing.xs),
-                RobotAvatar(difficulty: difficulty, size: 34),
+                OpponentAvatar(match: match, size: 34),
               ],
             ),
           ),

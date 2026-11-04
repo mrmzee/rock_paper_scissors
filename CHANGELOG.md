@@ -19,6 +19,7 @@ All notable changes to this project are documented here. The format follows
 - Reset stats from the trophies page (with confirmation).
 - First-launch "how to play" slides, reopened from the home "?" button.
 - Eight badges (first win, streaks, perfect match, beating Grumpy Robo, and more), announced mid-match and on the result page, collected on the trophies page.
+- Two-player pass-and-play: pick "A friend" on the home screen; a handoff screen hides Player 1's hand until Player 2 is ready. Friend matches do not change stats or badges.
 
 ### Changed
 

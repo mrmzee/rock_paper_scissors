@@ -14,14 +14,16 @@ import 'package:rock_paper_scissors/features/game/presentation/bloc/game_bloc.da
 import 'package:rock_paper_scissors/features/game/presentation/bloc/game_event.dart';
 import 'package:rock_paper_scissors/features/game/presentation/bloc/game_phase.dart';
 import 'package:rock_paper_scissors/features/game/presentation/bloc/game_state.dart';
+import 'package:rock_paper_scissors/features/game/presentation/mappers/match_sides.dart';
 import 'package:rock_paper_scissors/features/game/presentation/views/match_result_page.dart';
 import 'package:rock_paper_scissors/features/game/presentation/widgets/game_stage.dart';
 import 'package:rock_paper_scissors/features/game/presentation/widgets/game_top_bar.dart';
 import 'package:rock_paper_scissors/features/game/presentation/widgets/move_pad.dart';
 import 'package:rock_paper_scissors/features/game/presentation/widgets/pause_sheet.dart';
 
-/// Face-off layout: the robot on one side, the child on the other, the chant
-/// and result in between, and the hand buttons in the thumb zone.
+/// Face-off layout: the robot (or a friend) on one side, the child on the
+/// other, the chant and result in between, and the hand buttons in the thumb
+/// zone.
 class GameView extends StatefulWidget {
   const GameView({super.key});
 
@@ -47,6 +49,10 @@ class _GameViewState extends State<GameView> {
   void _onRoundRevealed(BuildContext context, GameState state) {
     final outcome = state.pendingRound?.outcome;
     switch (outcome) {
+      case RoundOutcome.loss when state.match.isPassAndPlay:
+        HapticFeedback.mediumImpact();
+        context.playSfx(Sfx.win);
+        _celebrate(0);
       case RoundOutcome.win:
         HapticFeedback.mediumImpact();
         context.playSfx(Sfx.win);
@@ -108,6 +114,12 @@ class _GameViewState extends State<GameView> {
       case PauseAction.resume || null:
         break;
     }
+  }
+
+  void _confirmHandoff() {
+    HapticFeedback.selectionClick();
+    context.playSfx(Sfx.tap);
+    context.read<GameBloc>().add(const GameHandoffConfirmed());
   }
 
   void _pick(Move move) {
@@ -185,6 +197,7 @@ class _GameViewState extends State<GameView> {
                                   ),
                                   onContinue: () =>
                                       bloc.add(const GameRoundAcknowledged()),
+                                  onHandoffReady: _confirmHandoff,
                                 ),
                               ),
                               const SizedBox(height: AppSpacing.md),

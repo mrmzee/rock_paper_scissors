@@ -3,13 +3,14 @@
 [![CI](https://github.com/mrmzee/rock_paper_scissors/actions/workflows/ci.yml/badge.svg)](https://github.com/mrmzee/rock_paper_scissors/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-A kid-friendly Flutter Rock Paper Scissors game with a robot opponent, English and Persian (RTL) support, sound effects, and local stats.
+A kid-friendly Flutter Rock Paper Scissors game against a robot or a friend, with English and Persian (RTL) support, sound effects, and local stats.
 
 ## Features
 
 - Face-off game screen: the robot on one side, the player on the other, big hand buttons in the thumb zone
 - "Rock… Paper… Scissors!" chant with shaking hands before every reveal
 - Three robot opponents (Robo Jr., Robo, Grumpy Robo) mapped to Easy / Normal / Hard AI, with reacting faces
+- Two-player pass-and-play on one device, with a "no peeking" handoff screen
 - **3 stars** (first to 3) and **Endless** modes
 - Confetti, sound effects (mutable) and haptic feedback
 - English and Persian with runtime language switch; choices are remembered
@@ -96,7 +97,7 @@ Each feature follows `domain` (entities, repository interfaces, use cases) → `
 - [x] Reset stats from the trophies page
 - [x] Richer stats: favorite move, win rate per robot, current streak
 - [x] First-launch "how to play" onboarding
-- [ ] Two-player pass-and-play mode
+- [x] Two-player pass-and-play mode
 - [x] Achievements / badges
 - [ ] Crash reporting
 
