@@ -18,6 +18,7 @@ All notable changes to this project are documented here. The format follows
 - Richer trophies page: favorite hand, current streak and win rate against each robot.
 - Reset stats from the trophies page (with confirmation).
 - First-launch "how to play" slides, reopened from the home "?" button.
+- Eight badges (first win, streaks, perfect match, beating Grumpy Robo, and more), announced mid-match and on the result page, collected on the trophies page.
 
 ### Changed
 

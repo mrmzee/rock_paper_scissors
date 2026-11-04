@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:rock_paper_scissors/features/achievements/domain/usecases/unlock_achievements.dart';
 import 'package:rock_paper_scissors/features/game/domain/entities/match.dart';
 import 'package:rock_paper_scissors/features/game/domain/entities/round.dart';
 import 'package:rock_paper_scissors/features/game/domain/usecases/play_round.dart';
@@ -12,11 +13,13 @@ final class GameBloc extends Bloc<GameEvent, GameState> {
   GameBloc({
     required PlayRound playRound,
     required RecordMatchStats recordMatchStats,
+    required UnlockAchievements unlockAchievements,
     required Match initialMatch,
     this.revealDelay = defaultRevealDelay,
     this.resultDelay = defaultResultDelay,
   })  : _playRound = playRound,
         _recordMatchStats = recordMatchStats,
+        _unlockAchievements = unlockAchievements,
         super(GameState.initial(initialMatch)) {
     on<GameStarted>(_onStarted);
     on<GameMoveSelected>(_onMoveSelected);
@@ -31,6 +34,7 @@ final class GameBloc extends Bloc<GameEvent, GameState> {
 
   final PlayRound _playRound;
   final RecordMatchStats _recordMatchStats;
+  final UnlockAchievements _unlockAchievements;
   final Duration revealDelay;
   final Duration resultDelay;
 
@@ -73,6 +77,7 @@ final class GameBloc extends Bloc<GameEvent, GameState> {
       ),
     );
 
+    await _unlockFor(updated, emit);
     if (updated.isOver) {
       await _persistStats(updated);
     } else {
@@ -125,6 +130,18 @@ final class GameBloc extends Bloc<GameEvent, GameState> {
   /// False once the round was skipped or the match was reset meanwhile.
   bool _isCurrent(Round round, GamePhase phase) {
     return state.phase == phase && identical(state.pendingRound, round);
+  }
+
+  /// Badges are checked after every round so Endless matches earn them too;
+  /// this must run before the match is recorded so the preview counts it once.
+  Future<void> _unlockFor(Match match, Emitter<GameState> emit) async {
+    if (_statsRecorded) return;
+    final stats = await _recordMatchStats.preview(match);
+    final earned = await _unlockAchievements(match, stats);
+    if (earned.isEmpty || emit.isDone || !identical(state.match, match)) {
+      return;
+    }
+    emit(state.copyWith(achievements: [...state.achievements, ...earned]));
   }
 
   Future<void> _persistStats(Match match) async {

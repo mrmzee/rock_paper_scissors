@@ -488,6 +488,126 @@ abstract class AppLocalizations {
   /// **'Try again'**
   String get tryAgain;
 
+  /// No description provided for @badges.
+  ///
+  /// In en, this message translates to:
+  /// **'Badges'**
+  String get badges;
+
+  /// No description provided for @badgesProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'{unlocked} of {total}'**
+  String badgesProgress(int unlocked, int total);
+
+  /// No description provided for @newBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'New badge!'**
+  String get newBadge;
+
+  /// No description provided for @badgeLocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Locked'**
+  String get badgeLocked;
+
+  /// No description provided for @badgeFirstWin.
+  ///
+  /// In en, this message translates to:
+  /// **'First win'**
+  String get badgeFirstWin;
+
+  /// No description provided for @badgeFirstWinHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Win a match'**
+  String get badgeFirstWinHint;
+
+  /// No description provided for @badgeStreak3.
+  ///
+  /// In en, this message translates to:
+  /// **'Hat trick'**
+  String get badgeStreak3;
+
+  /// No description provided for @badgeStreak3Hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Win 3 rounds in a row'**
+  String get badgeStreak3Hint;
+
+  /// No description provided for @badgeStreak5.
+  ///
+  /// In en, this message translates to:
+  /// **'Unstoppable'**
+  String get badgeStreak5;
+
+  /// No description provided for @badgeStreak5Hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Win 5 rounds in a row'**
+  String get badgeStreak5Hint;
+
+  /// No description provided for @badgePerfect.
+  ///
+  /// In en, this message translates to:
+  /// **'Perfect match'**
+  String get badgePerfect;
+
+  /// No description provided for @badgePerfectHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Get 3 stars without losing a round'**
+  String get badgePerfectHint;
+
+  /// No description provided for @badgeBeatGrumpy.
+  ///
+  /// In en, this message translates to:
+  /// **'Grumpy no more'**
+  String get badgeBeatGrumpy;
+
+  /// No description provided for @badgeBeatGrumpyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Win a match against {robot}'**
+  String badgeBeatGrumpyHint(String robot);
+
+  /// No description provided for @badgeAllMoves.
+  ///
+  /// In en, this message translates to:
+  /// **'Triple threat'**
+  String get badgeAllMoves;
+
+  /// No description provided for @badgeAllMovesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Win with rock, paper and scissors in one match'**
+  String get badgeAllMovesHint;
+
+  /// No description provided for @badgeMatches10.
+  ///
+  /// In en, this message translates to:
+  /// **'Regular'**
+  String get badgeMatches10;
+
+  /// No description provided for @badgeMatches10Hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Play 10 matches'**
+  String get badgeMatches10Hint;
+
+  /// No description provided for @badgeMatches50.
+  ///
+  /// In en, this message translates to:
+  /// **'Veteran'**
+  String get badgeMatches50;
+
+  /// No description provided for @badgeMatches50Hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Play 50 matches'**
+  String get badgeMatches50Hint;
+
   /// No description provided for @howToPlay.
   ///
   /// In en, this message translates to:

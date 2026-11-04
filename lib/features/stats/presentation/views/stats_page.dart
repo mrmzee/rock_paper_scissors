@@ -6,6 +6,9 @@ import 'package:rock_paper_scissors/core/theme/app_spacing.dart';
 import 'package:rock_paper_scissors/core/theme/game_colors.dart';
 import 'package:rock_paper_scissors/core/widgets/app_background.dart';
 import 'package:rock_paper_scissors/core/widgets/toy_surface.dart';
+import 'package:rock_paper_scissors/features/achievements/domain/entities/achievement.dart';
+import 'package:rock_paper_scissors/features/achievements/domain/repositories/achievements_repository.dart';
+import 'package:rock_paper_scissors/features/achievements/presentation/widgets/achievements_grid.dart';
 import 'package:rock_paper_scissors/features/game/domain/entities/player_stats.dart';
 import 'package:rock_paper_scissors/features/game/domain/repositories/stats_repository.dart';
 import 'package:rock_paper_scissors/features/stats/presentation/widgets/favorite_move_card.dart';
@@ -19,10 +22,18 @@ class StatsPage extends StatefulWidget {
   State<StatsPage> createState() => _StatsPageState();
 }
 
-class _StatsPageState extends State<StatsPage> {
-  late Future<PlayerStats> _future = _load();
+typedef _Trophies = ({PlayerStats stats, Set<Achievement> badges});
 
-  Future<PlayerStats> _load() => context.read<StatsRepository>().load();
+class _StatsPageState extends State<StatsPage> {
+  late Future<_Trophies> _future = _load();
+
+  Future<_Trophies> _load() async {
+    final (stats, badges) = await (
+      context.read<StatsRepository>().load(),
+      context.read<AchievementsRepository>().load(),
+    ).wait;
+    return (stats: stats, badges: badges);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,10 +42,10 @@ class _StatsPageState extends State<StatsPage> {
       appBar: AppBar(
         title: Text(context.l10n.myTrophies),
         actions: [
-          FutureBuilder<PlayerStats>(
+          FutureBuilder<_Trophies>(
             future: _future,
             builder: (context, snapshot) {
-              final stats = snapshot.data;
+              final stats = snapshot.data?.stats;
               if (stats == null || stats.isEmpty) {
                 return const SizedBox.shrink();
               }
@@ -52,7 +63,7 @@ class _StatsPageState extends State<StatsPage> {
         child: SafeArea(
           child: Padding(
             padding: const EdgeInsets.only(top: kToolbarHeight),
-            child: FutureBuilder<PlayerStats>(
+            child: FutureBuilder<_Trophies>(
               future: _future,
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
@@ -66,7 +77,7 @@ class _StatsPageState extends State<StatsPage> {
                   );
                 }
 
-                final stats = snapshot.data!;
+                final (:stats, :badges) = snapshot.data!;
                 if (stats.isEmpty) {
                   return const _EmptyStats();
                 }
@@ -98,6 +109,8 @@ class _StatsPageState extends State<StatsPage> {
                         ],
                         const SizedBox(height: AppSpacing.lg),
                         RobotWinRates(stats: stats),
+                        const SizedBox(height: AppSpacing.lg),
+                        AchievementsGrid(unlocked: badges),
                       ],
                     ),
                   ),
@@ -117,9 +130,10 @@ class _StatsPageState extends State<StatsPage> {
   }
 
   Future<void> _reset() async {
-    final repository = context.read<StatsRepository>();
+    final stats = context.read<StatsRepository>();
+    final badges = context.read<AchievementsRepository>();
     if (!await confirmResetStats(context)) return;
-    await repository.clear();
+    await (stats.clear(), badges.clear()).wait;
     if (mounted) _reload();
   }
 }

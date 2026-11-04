@@ -3,6 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:rock_paper_scissors/app.dart';
 import 'package:rock_paper_scissors/core/settings/app_settings.dart';
 import 'package:rock_paper_scissors/core/settings/settings_repository.dart';
+import 'package:rock_paper_scissors/features/achievements/data/repositories/in_memory_achievements_repository.dart';
+import 'package:rock_paper_scissors/features/achievements/domain/entities/achievement.dart';
 import 'package:rock_paper_scissors/features/game/data/repositories/in_memory_stats_repository.dart';
 import 'package:rock_paper_scissors/features/game/domain/entities/difficulty.dart';
 import 'package:rock_paper_scissors/features/game/domain/entities/move.dart';
@@ -24,6 +26,8 @@ void main() {
     roundsWonBy: {Difficulty.hard: 6},
   );
 
+  late InMemoryAchievementsRepository badges;
+
   Future<InMemoryStatsRepository> pumpStats(
     WidgetTester tester, [
     PlayerStats initial = stats,
@@ -39,6 +43,9 @@ void main() {
           const AppSettings(locale: Locale('en'), onboardingSeen: true),
         ),
         statsRepository: repository,
+        achievementsRepository: badges = InMemoryAchievementsRepository(
+          {Achievement.firstWin},
+        ),
         home: const StatsPage(),
       ),
     );
@@ -55,6 +62,8 @@ void main() {
     expect(find.text('Against each robot'), findsOneWidget);
     expect(find.text('60%'), findsWidgets);
     expect(find.text('Not played yet'), findsNWidgets(2));
+    expect(find.text('Badges'), findsOneWidget);
+    expect(find.text('1 of 8'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 
@@ -75,6 +84,7 @@ void main() {
     await tapAndWait(find.byKey(const Key('confirm_reset_stats')));
 
     expect(await repository.load(), const PlayerStats());
+    expect(await badges.load(), isEmpty);
     expect(find.text('Play a game to win trophies!'), findsOneWidget);
     expect(find.byKey(const Key('reset_stats')), findsNothing);
   });

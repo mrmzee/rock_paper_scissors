@@ -27,6 +27,7 @@ class GamePage extends StatelessWidget {
       create: (context) => GameBloc(
         playRound: context.read(),
         recordMatchStats: context.read(),
+        unlockAchievements: context.read(),
         initialMatch: Match.start(mode: mode, difficulty: difficulty),
         revealDelay: revealDelay,
         resultDelay: resultDelay,

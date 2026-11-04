@@ -259,6 +259,78 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tryAgain => 'Try again';
 
   @override
+  String get badges => 'Badges';
+
+  @override
+  String badgesProgress(int unlocked, int total) {
+    final intl.NumberFormat unlockedNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String unlockedString = unlockedNumberFormat.format(unlocked);
+    final intl.NumberFormat totalNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String totalString = totalNumberFormat.format(total);
+
+    return '$unlockedString of $totalString';
+  }
+
+  @override
+  String get newBadge => 'New badge!';
+
+  @override
+  String get badgeLocked => 'Locked';
+
+  @override
+  String get badgeFirstWin => 'First win';
+
+  @override
+  String get badgeFirstWinHint => 'Win a match';
+
+  @override
+  String get badgeStreak3 => 'Hat trick';
+
+  @override
+  String get badgeStreak3Hint => 'Win 3 rounds in a row';
+
+  @override
+  String get badgeStreak5 => 'Unstoppable';
+
+  @override
+  String get badgeStreak5Hint => 'Win 5 rounds in a row';
+
+  @override
+  String get badgePerfect => 'Perfect match';
+
+  @override
+  String get badgePerfectHint => 'Get 3 stars without losing a round';
+
+  @override
+  String get badgeBeatGrumpy => 'Grumpy no more';
+
+  @override
+  String badgeBeatGrumpyHint(String robot) {
+    return 'Win a match against $robot';
+  }
+
+  @override
+  String get badgeAllMoves => 'Triple threat';
+
+  @override
+  String get badgeAllMovesHint =>
+      'Win with rock, paper and scissors in one match';
+
+  @override
+  String get badgeMatches10 => 'Regular';
+
+  @override
+  String get badgeMatches10Hint => 'Play 10 matches';
+
+  @override
+  String get badgeMatches50 => 'Veteran';
+
+  @override
+  String get badgeMatches50Hint => 'Play 50 matches';
+
+  @override
   String get howToPlay => 'How to play';
 
   @override
