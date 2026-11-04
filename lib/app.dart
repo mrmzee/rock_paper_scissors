@@ -5,6 +5,7 @@ import 'package:rock_paper_scissors/core/audio/sound_service.dart';
 import 'package:rock_paper_scissors/core/settings/app_settings.dart';
 import 'package:rock_paper_scissors/core/settings/settings_cubit.dart';
 import 'package:rock_paper_scissors/core/settings/settings_repository.dart';
+import 'package:rock_paper_scissors/core/theme/app_motion.dart';
 import 'package:rock_paper_scissors/core/theme/app_theme.dart';
 import 'package:rock_paper_scissors/features/game/data/repositories/adaptive_opponent_strategy.dart';
 import 'package:rock_paper_scissors/features/game/data/repositories/in_memory_stats_repository.dart';
@@ -13,6 +14,7 @@ import 'package:rock_paper_scissors/features/game/domain/repositories/stats_repo
 import 'package:rock_paper_scissors/features/game/domain/usecases/play_round.dart';
 import 'package:rock_paper_scissors/features/game/domain/usecases/record_match_stats.dart';
 import 'package:rock_paper_scissors/features/home/presentation/views/home_page.dart';
+import 'package:rock_paper_scissors/features/onboarding/presentation/views/onboarding_page.dart';
 import 'package:rock_paper_scissors/l10n/app_localizations.dart';
 
 /// Root widget and composition root: every dependency is provided here so
@@ -75,11 +77,36 @@ class RockPaperScissorsApp extends StatelessWidget {
                 GlobalWidgetsLocalizations.delegate,
                 GlobalCupertinoLocalizations.delegate,
               ],
-              home: home,
+              home: _FirstRunGate(child: home),
             );
           },
         ),
       ),
+    );
+  }
+}
+
+/// Shows the onboarding slides until they are finished once.
+class _FirstRunGate extends StatelessWidget {
+  const _FirstRunGate({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<SettingsCubit, AppSettings>(
+      buildWhen: (previous, current) =>
+          previous.onboardingSeen != current.onboardingSeen,
+      builder: (context, settings) {
+        return AnimatedSwitcher(
+          duration: AppMotion.of(context, AppMotion.page),
+          child: settings.onboardingSeen
+              ? child
+              : OnboardingPage(
+                  onDone: context.read<SettingsCubit>().completeOnboarding,
+                ),
+        );
+      },
     );
   }
 }

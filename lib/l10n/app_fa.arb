@@ -65,5 +65,16 @@
   "reset": "پاک کن",
   "noStatsYet": "بازی کن تا جایزه ببری!",
   "tryAgain": "دوباره امتحان کن",
+  "howToPlay": "راهنمای بازی",
+  "onboardingSkip": "رد شو",
+  "onboardingNext": "بعدی",
+  "onboardingDone": "بزن بریم!",
+  "onboardingMovesTitle": "دستت رو انتخاب کن",
+  "onboardingMovesBody": "سنگ قیچی رو می‌بره، قیچی کاغذ رو، کاغذ هم سنگ رو.",
+  "onboardingRobotsTitle": "یه ربات انتخاب کن",
+  "onboardingRobotsBody": "{easy} برای سرگرمی بازی می‌کنه. {hard} حقه‌هات رو یاد می‌گیره!",
+  "onboardingTrophiesTitle": "ستاره و جایزه ببر",
+  "onboardingTrophiesBody": "هر کی زودتر ۳ ستاره بگیره برنده‌ست. هر بازی به جایزه‌هات اضافه می‌شه.",
+  "onboardingPage": "صفحهٔ {current} از {total}",
   "loading": "در حال بارگذاری"
 }

@@ -29,6 +29,8 @@ final class SettingsCubit extends Cubit<AppSettings> {
     _update(state.copyWith(themeMode: next));
   }
 
+  void completeOnboarding() => _update(state.copyWith(onboardingSeen: true));
+
   void selectMode(MatchMode mode) => _update(state.copyWith(mode: mode));
 
   void selectDifficulty(Difficulty difficulty) =>

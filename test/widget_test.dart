@@ -22,7 +22,7 @@ Widget _gameApp({
 }) {
   return RockPaperScissorsApp(
     settingsRepository: InMemorySettingsRepository(
-      AppSettings(locale: locale),
+      AppSettings(locale: locale, onboardingSeen: true),
     ),
     statsRepository: InMemoryStatsRepository(),
     opponentStrategy: SequenceOpponentStrategy(robotMoves),
@@ -38,7 +38,7 @@ Widget _gameApp({
 Widget _homeApp({Locale locale = const Locale('en')}) {
   return RockPaperScissorsApp(
     settingsRepository: InMemorySettingsRepository(
-      AppSettings(locale: locale),
+      AppSettings(locale: locale, onboardingSeen: true),
     ),
     statsRepository: InMemoryStatsRepository(),
     opponentStrategy: SequenceOpponentStrategy(const []),

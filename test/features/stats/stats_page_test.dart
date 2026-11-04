@@ -36,7 +36,7 @@ void main() {
     await tester.pumpWidget(
       RockPaperScissorsApp(
         settingsRepository: InMemorySettingsRepository(
-          const AppSettings(locale: Locale('en')),
+          const AppSettings(locale: Locale('en'), onboardingSeen: true),
         ),
         statsRepository: repository,
         home: const StatsPage(),

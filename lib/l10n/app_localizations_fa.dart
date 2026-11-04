@@ -253,5 +253,51 @@ class AppLocalizationsFa extends AppLocalizations {
   String get tryAgain => 'دوباره امتحان کن';
 
   @override
+  String get howToPlay => 'راهنمای بازی';
+
+  @override
+  String get onboardingSkip => 'رد شو';
+
+  @override
+  String get onboardingNext => 'بعدی';
+
+  @override
+  String get onboardingDone => 'بزن بریم!';
+
+  @override
+  String get onboardingMovesTitle => 'دستت رو انتخاب کن';
+
+  @override
+  String get onboardingMovesBody =>
+      'سنگ قیچی رو می‌بره، قیچی کاغذ رو، کاغذ هم سنگ رو.';
+
+  @override
+  String get onboardingRobotsTitle => 'یه ربات انتخاب کن';
+
+  @override
+  String onboardingRobotsBody(String easy, String hard) {
+    return '$easy برای سرگرمی بازی می‌کنه. $hard حقه‌هات رو یاد می‌گیره!';
+  }
+
+  @override
+  String get onboardingTrophiesTitle => 'ستاره و جایزه ببر';
+
+  @override
+  String get onboardingTrophiesBody =>
+      'هر کی زودتر ۳ ستاره بگیره برنده‌ست. هر بازی به جایزه‌هات اضافه می‌شه.';
+
+  @override
+  String onboardingPage(int current, int total) {
+    final intl.NumberFormat currentNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String currentString = currentNumberFormat.format(current);
+    final intl.NumberFormat totalNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String totalString = totalNumberFormat.format(total);
+
+    return 'صفحهٔ $currentString از $totalString';
+  }
+
+  @override
   String get loading => 'در حال بارگذاری';
 }

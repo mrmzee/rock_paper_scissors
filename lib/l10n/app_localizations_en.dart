@@ -259,5 +259,51 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tryAgain => 'Try again';
 
   @override
+  String get howToPlay => 'How to play';
+
+  @override
+  String get onboardingSkip => 'Skip';
+
+  @override
+  String get onboardingNext => 'Next';
+
+  @override
+  String get onboardingDone => 'Let\'s play!';
+
+  @override
+  String get onboardingMovesTitle => 'Pick your hand';
+
+  @override
+  String get onboardingMovesBody =>
+      'Rock beats scissors, scissors beat paper, and paper beats rock.';
+
+  @override
+  String get onboardingRobotsTitle => 'Choose a robot';
+
+  @override
+  String onboardingRobotsBody(String easy, String hard) {
+    return '$easy plays for fun. $hard learns your tricks!';
+  }
+
+  @override
+  String get onboardingTrophiesTitle => 'Win stars and trophies';
+
+  @override
+  String get onboardingTrophiesBody =>
+      'First to 3 stars wins the match. Every game adds to your trophies.';
+
+  @override
+  String onboardingPage(int current, int total) {
+    final intl.NumberFormat currentNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String currentString = currentNumberFormat.format(current);
+    final intl.NumberFormat totalNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String totalString = totalNumberFormat.format(total);
+
+    return 'Page $currentString of $totalString';
+  }
+
+  @override
   String get loading => 'Loading';
 }

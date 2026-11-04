@@ -77,6 +77,7 @@ lib/
     widgets/       # ChunkyButton, ToySurface, AppBackground
   features/
     home/          # mode + robot selection
+    onboarding/    # first-launch "how to play" slides
     game/          # match engine, AI, game UI, result page
     stats/         # lifetime statistics
 assets/
@@ -92,7 +93,7 @@ Each feature follows `domain` (entities, repository interfaces, use cases) → `
 - [x] Theme selection (system / light / dark)
 - [x] Reset stats from the trophies page
 - [x] Richer stats: favorite move, win rate per robot, current streak
-- [ ] First-launch "how to play" onboarding
+- [x] First-launch "how to play" onboarding
 - [ ] Two-player pass-and-play mode
 - [ ] Achievements / badges
 - [ ] Crash reporting

@@ -16,6 +16,7 @@ import 'package:rock_paper_scissors/features/home/presentation/widgets/mode_card
 import 'package:rock_paper_scissors/features/home/presentation/widgets/play_button.dart';
 import 'package:rock_paper_scissors/features/home/presentation/widgets/robot_card.dart';
 import 'package:rock_paper_scissors/features/home/presentation/widgets/section_title.dart';
+import 'package:rock_paper_scissors/features/onboarding/presentation/views/onboarding_page.dart';
 import 'package:rock_paper_scissors/features/stats/presentation/views/stats_page.dart';
 
 class HomePage extends StatelessWidget {
@@ -34,6 +35,11 @@ class HomePage extends StatelessWidget {
   void _openStats(BuildContext context) {
     context.playSfx(Sfx.tap);
     Navigator.of(context).push(_fadeRoute(context, const StatsPage()));
+  }
+
+  void _openHelp(BuildContext context) {
+    context.playSfx(Sfx.tap);
+    Navigator.of(context).push(OnboardingPage.route());
   }
 
   Route<void> _fadeRoute(BuildContext context, Widget page) {
@@ -82,6 +88,7 @@ class HomePage extends StatelessWidget {
                 onSound: cubit.toggleSound,
                 themeMode: settings.themeMode,
                 onTheme: cubit.cycleThemeMode,
+                onHelp: () => _openHelp(context),
                 onStats: () => _openStats(context),
               );
               final hero = FittedBox(
