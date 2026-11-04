@@ -1,7 +1,12 @@
 // Some plugins (e.g. audioplayers_android) pin old AGP/Kotlin versions in their
 // buildscript; align them with the project's versions so Gradle doesn't try to
-// download them.
+// download them. Their buildscript only lists google()/mavenCentral(), so the
+// mirrors are added too for networks where dl.google.com is unreachable.
 subprojects {
+    buildscript.repositories {
+        maven { url "https://maven.aliyun.com/repository/google" }
+        maven { url "https://maven.aliyun.com/repository/public" }
+    }
     buildscript.configurations.configureEach {
         resolutionStrategy.eachDependency { details ->
             def requested = details.requested
